@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import sun.audio.*;
 
 public class Board extends JPanel implements ActionListener {
 
@@ -88,8 +89,7 @@ public class Board extends JPanel implements ActionListener {
     private void drawObjects(Graphics g) {
 
         if (tank.isVisible()) {
-            g.drawImage(tank.getImage(), tank.getX(), tank.getY(),
-                    this);
+           g.drawImage(tank.getImage(), tank.getX(), tank.getY(),this);
         }
 
         List<Missile> ms = tank.getMissiles();
@@ -104,6 +104,9 @@ public class Board extends JPanel implements ActionListener {
         for (Enemy enemy : enemies) {
             if (enemy.isVisible()) {
                 g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), this);
+            }
+            else {
+            	g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), this);
             }
         }
 
@@ -215,9 +218,11 @@ public class Board extends JPanel implements ActionListener {
                 Rectangle r2 = enemy.getBounds();
 
                 if (r1.intersects(r2)) {
-
-                    m.setVisible(false);
+                	
+                	m.setVisible(false);
                     enemy.setVisible(false);
+                    
+                    enemy.destroyEnemy();
                 }
             }
         }

@@ -1,3 +1,10 @@
+import java.util.ArrayList;
+import java.util.List;
+
+import java.awt.Image;
+import java.awt.Rectangle;
+import javax.swing.ImageIcon;
+
 public class Enemy extends Sprite {
 
     private final int INITIAL_X = 400;
@@ -10,8 +17,37 @@ public class Enemy extends Sprite {
 
     private void initEnemy() {
 
-        loadImage("Resources/tank_blue.png");
+        loadImage("tancovich/src/Resources/tank_blue.png");
         getImageDimensions();
+    }
+    
+    public void destroyEnemy() {
+        
+		loadImage("tancovich/src/Resources/explosion2.png");
+		getImageDimensions();
+    	
+//    	List<Image> explosion =  new ArrayList();
+//
+//    		loadImage("tancovich/src/Resources/explosion1.png"
+//    		explosion.add(getImage());
+//    		getImageDimensions();
+//
+//    		loadImage("tancovich/src/Resources/explosion2.png"
+//    		explosion.add(getImage());
+//    		getImageDimensions();
+//
+//    		loadImage("tancovich/src/Resources/explosion3.png"
+//    		explosion.add(getImage());
+//    		getImageDimensions();
+//
+//    		loadImage("tancovich/src/Resources/explosion4.png"
+//    		explosion.add(getImage());
+//    		getImageDimensions();
+//
+//    		loadImage("tancovich/src/Resources/explosion5.png"
+//    		explosion.add(getImage());
+//    		getImageDimensions();
+
     }
 
     public void move() {
