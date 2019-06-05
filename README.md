@@ -16,3 +16,4 @@ Game about tank fights between two players.
 7)En caso de que no haya conflicto generamos un nuevo merge request de la rama a mergear en el Upstream 
 
 8)Luego se pasan a la rama master de origin hacen un pull de la rama master de Upstream y asi generan una nueva rama para continuar
+
