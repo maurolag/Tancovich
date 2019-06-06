@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 public class Board extends JPanel implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
 	private BufferedImage background;
     private Timer timer;
     private List<Enemy> enemies;

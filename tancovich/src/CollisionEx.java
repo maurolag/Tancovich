@@ -3,7 +3,9 @@ import javax.swing.JFrame;
 
 public class CollisionEx extends JFrame {
 
-    public CollisionEx() {
+	private static final long serialVersionUID = 1L;
+
+	public CollisionEx() {
 
         initUI();
     }
