@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-
 import java.awt.Image;
-import java.awt.Rectangle;
-import javax.swing.ImageIcon;
 
 public class Enemy extends Sprite {
 
@@ -26,7 +23,7 @@ public class Enemy extends Sprite {
 		loadImage("src/Resources/explosion2.png");
 		getImageDimensions();
     	
-    	List<Image> explosion =  new ArrayList();
+    	List<Image> explosion = new ArrayList<Image>();
 
     		loadImage("src/Resources/explosion1.png");
     		explosion.add(getImage());
