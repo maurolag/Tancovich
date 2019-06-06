@@ -10,7 +10,6 @@ public class Tank extends Sprite {
 
     public Tank(int x, int y) {
         super(x, y);
-
         initCraft();
     }
 
@@ -18,9 +17,7 @@ public class Tank extends Sprite {
 
         missiles = new ArrayList<>();
         loadImage("src/Resources/tank_bigRedDown.png");
-        getImageDimensions();
-        
-        
+        getImageDimensions();   
     }
     
     public void move() {
@@ -87,8 +84,8 @@ public class Tank extends Sprite {
         }
     }
 
-    public void fire(KeyEvent e) {
-       
+    public void fire(KeyEvent e)
+    {       
     	missiles.add(new Missile(x + width, y + height / 2));
     }
 

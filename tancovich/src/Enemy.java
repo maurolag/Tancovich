@@ -17,36 +17,36 @@ public class Enemy extends Sprite {
 
     private void initEnemy() {
 
-        loadImage("tancovich/src/Resources/tank_blue.png");
+        loadImage("src/Resources/tank_blue.png");
         getImageDimensions();
     }
     
     public void destroyEnemy() {
         
-		loadImage("tancovich/src/Resources/explosion2.png");
+		loadImage("src/Resources/explosion2.png");
 		getImageDimensions();
     	
-//    	List<Image> explosion =  new ArrayList();
-//
-//    		loadImage("tancovich/src/Resources/explosion1.png"
-//    		explosion.add(getImage());
-//    		getImageDimensions();
-//
-//    		loadImage("tancovich/src/Resources/explosion2.png"
-//    		explosion.add(getImage());
-//    		getImageDimensions();
-//
-//    		loadImage("tancovich/src/Resources/explosion3.png"
-//    		explosion.add(getImage());
-//    		getImageDimensions();
-//
-//    		loadImage("tancovich/src/Resources/explosion4.png"
-//    		explosion.add(getImage());
-//    		getImageDimensions();
-//
-//    		loadImage("tancovich/src/Resources/explosion5.png"
-//    		explosion.add(getImage());
-//    		getImageDimensions();
+    	List<Image> explosion =  new ArrayList();
+
+    		loadImage("src/Resources/explosion1.png");
+    		explosion.add(getImage());
+    		getImageDimensions();
+
+    		loadImage("src/Resources/explosion2.png");
+    		explosion.add(getImage());
+    		getImageDimensions();
+
+    		loadImage("src/Resources/explosion3.png");
+    		explosion.add(getImage());
+    		getImageDimensions();
+
+    		loadImage("src/Resources/explosion4.png");
+    		explosion.add(getImage());
+    		getImageDimensions();
+
+    		loadImage("src/Resources/explosion5.png");
+    		explosion.add(getImage());
+    		getImageDimensions();
 
     }
 
