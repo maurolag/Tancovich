@@ -41,11 +41,6 @@ public class Tank extends Sprite {
     public void keyPressed(KeyEvent e) {
 
         int key = e.getKeyCode();
-
-
-        if (key == KeyEvent.VK_SPACE) {
-        	fire(e);
-        }
         
         if (key == KeyEvent.VK_LEFT) {
             dx = -1;
@@ -75,18 +70,9 @@ public class Tank extends Sprite {
             getImageDimensions();
         }
         
-        if(key == (KeyEvent.VK_DOWN + KeyEvent.VK_RIGHT)) {
-            
-        	dy = -1;
-            
-            loadImage("Resources/tank_blue.png");
-            getImageDimensions();
+        if (key == KeyEvent.VK_SPACE) {
+        	fire(e);
         }
-    }
-
-    public void fire(KeyEvent e)
-    {       
-    	missiles.add(new Missile(x + width, y + height / 2));
     }
 
     public void keyReleased(KeyEvent e) {
@@ -108,5 +94,10 @@ public class Tank extends Sprite {
         if (key == KeyEvent.VK_DOWN) {
             dy = 0;
         }
+    }
+    
+    public void fire(KeyEvent e)
+    {       
+    	missiles.add(new Missile(x + width, y + height / 2));
     }
 }
