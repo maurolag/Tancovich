@@ -35,8 +35,7 @@ public class Sprite {
         	image = ImageIO.read(getClass().getResourceAsStream(imageName));
         } catch (IOException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    	g2d = (Graphics2D) image.getGraphics();
+        }    	
     }
 
     public Image getImage() {

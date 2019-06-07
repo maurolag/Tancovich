@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +18,23 @@ public class Tank extends Sprite {
     private void initCraft() {
 
         missiles = new ArrayList<>();
-        loadImage("Resources/tank_bigRedDown.png");
-        getImageDimensions();
+        //loadImage("Resources/tank_bigRedDown.png");
+        initGraph();        
+    }
+    
+    public void drawTank() {    	
+        //loadImage("Resources/tank_bigRedDown.png");
+        //getImageDimensions();
+    	initGraph();
+    	
+    }
+    
+    public void initGraph() {
+    	
+    	loadImage("Resources/tank_bigRedDown.png");
+    	getImageDimensions();
+    	this.g2d = (Graphics2D) image.getGraphics();
+    	g2d.setColor(Color.black);
     }
     
     public void move() {
