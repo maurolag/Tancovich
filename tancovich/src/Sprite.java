@@ -1,6 +1,11 @@
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
-import javax.swing.ImageIcon;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 public class Sprite {
 
@@ -9,7 +14,8 @@ public class Sprite {
     protected int width;
     protected int height;
     protected boolean visible;
-    protected Image image;
+    protected BufferedImage image;
+    protected Graphics2D g2d;
 
     public Sprite(int x, int y) {
 
@@ -25,9 +31,12 @@ public class Sprite {
     }
 
     protected void loadImage(String imageName) {
-
-        ImageIcon ii = new ImageIcon(imageName);
-        image = ii.getImage();
+    	try {        	
+        	image = ImageIO.read(getClass().getResourceAsStream(imageName));
+        } catch (IOException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    	g2d = (Graphics2D) image.getGraphics();
     }
 
     public Image getImage() {
@@ -53,4 +62,12 @@ public class Sprite {
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
     }
+
+	public Graphics2D getG2d() {
+		return g2d;
+	}
+
+	public void setG2d(Graphics2D g2d) {
+		this.g2d = g2d;
+	}
 }

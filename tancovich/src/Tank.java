@@ -16,8 +16,8 @@ public class Tank extends Sprite {
     private void initCraft() {
 
         missiles = new ArrayList<>();
-        loadImage("src/Resources/tank_bigRedDown.png");
-        getImageDimensions();   
+        loadImage("Resources/tank_bigRedDown.png");
+        getImageDimensions();
     }
     
     public void move() {
@@ -50,28 +50,28 @@ public class Tank extends Sprite {
         if (key == KeyEvent.VK_LEFT) {
             dx = -1;
             
-            loadImage("src/Resources/tank_bigRedLeft.png");
+            loadImage("Resources/tank_bigRedLeft.png");
             getImageDimensions();
         }
 
         if (key == KeyEvent.VK_RIGHT) {
             dx = 1;
             
-            loadImage("src/Resources/tank_bigRedRight.png");
+            loadImage("Resources/tank_bigRedRight.png");
             getImageDimensions();
         }
 
         if (key == KeyEvent.VK_UP) {
             dy = -1;
             
-            loadImage("src/Resources/tank_bigRedUp.png");
+            loadImage("Resources/tank_bigRedUp.png");
             getImageDimensions();
         }
 
         if (key == KeyEvent.VK_DOWN) {
             dy = 1;
             
-            loadImage("src/Resources/tank_bigRedDown.png");
+            loadImage("Resources/tank_bigRedDown.png");
             getImageDimensions();
         }
         
@@ -79,7 +79,7 @@ public class Tank extends Sprite {
             
         	dy = -1;
             
-            loadImage("src/Resources/tank_blue.png");
+            loadImage("Resources/tank_blue.png");
             getImageDimensions();
         }
     }
