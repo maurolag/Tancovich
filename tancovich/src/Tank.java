@@ -18,11 +18,14 @@ public class Tank extends Sprite {
     private void initCraft() {
 
         missiles = new ArrayList<>();
-        //loadImage("Resources/tank_bigRedDown.png");
-        initGraph();        
+        loadImage("Resources/tank_bigRedDown.png");
+    	getImageDimensions();
+    	image = rotateImageByDegrees(image, 45);
+        //initGraph();
     }
     
-    public void drawTank() {    	
+    public void drawTank() { 
+    	
         //loadImage("Resources/tank_bigRedDown.png");
         //getImageDimensions();
     	initGraph();
@@ -31,8 +34,6 @@ public class Tank extends Sprite {
     
     public void initGraph() {
     	
-    	loadImage("Resources/tank_bigRedDown.png");
-    	getImageDimensions();
     	this.g2d = (Graphics2D) image.getGraphics();
     	g2d.setColor(Color.black);
     }
