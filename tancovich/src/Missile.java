@@ -11,7 +11,7 @@ public class Missile extends Sprite {
 
     private void initMissile() {
 
-        loadImage("tancovich/src/Resources/bulletDark1.png");
+        loadImage("Resources/bulletDark1.png");
         getImageDimensions();
     }
 

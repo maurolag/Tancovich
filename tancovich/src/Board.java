@@ -30,7 +30,7 @@ public class Board extends JPanel implements ActionListener {
     private final int ICRAFT_Y = 60;
     private final int B_WIDTH = 800;
     private final int B_HEIGHT = 600;
-    private final int DELAY = 15;
+    private final int DELAY = 30;
     private Tank tank;
 
     private final int[][] pos = {
@@ -89,7 +89,7 @@ public class Board extends JPanel implements ActionListener {
 
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+        super.paintComponent(g);        	
         
         drawBackground(g);
         
@@ -111,9 +111,10 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void drawObjects(Graphics g) {
-
+    	
         if (tank.isVisible()) {
-           g.drawImage(tank.getImage(), tank.getX(), tank.getY(),this);
+        	
+        	g.drawImage(tank.getImage(), tank.getX(), tank.getY(),this);
         }
 
         List<Missile> ms = tank.getMissiles();
@@ -146,8 +147,7 @@ public class Board extends JPanel implements ActionListener {
 
         g.setColor(Color.white);
         g.setFont(small);
-        g.drawString(msg, (B_WIDTH - fm.stringWidth(msg)) / 2,
-                B_HEIGHT / 2);
+        g.drawString(msg, (B_WIDTH - fm.stringWidth(msg)) / 2, B_HEIGHT / 2);
     }
 
     @Override

@@ -4,8 +4,7 @@ import java.util.List;
 
 public class Tank extends Sprite {
 
-    private int dx;
-    private int dy;
+    private int forward;
     private List<Missile> missiles;
 
     public Tank(int x, int y) {
@@ -16,16 +15,16 @@ public class Tank extends Sprite {
     private void initCraft() {
 
         missiles = new ArrayList<>();
-<<<<<<< HEAD
-        loadImage("tancovich/src/Resources/tankRed.png");
-=======
-        loadImage("src/Resources/tank_bigRedDown.png");
->>>>>>> refs/remotes/origin/master
-        getImageDimensions();   
+        loadImage("Resources/tank_bigRed.png");
+    	  getImageDimensions();
+
     }
     
     public void move() {
 
+    	x = (int)(x + (Math.sin(Math.toRadians(-r)) * forward));
+        y = (int)(y + (Math.cos(Math.toRadians(-r)) * forward));
+    	/*x
         x += dx;
         y += dy;
 
@@ -35,7 +34,7 @@ public class Tank extends Sprite {
 
         if (y < 1) {
             y = 1;
-        }
+        }*/
     }
 
     public List<Missile> getMissiles() {
@@ -45,52 +44,36 @@ public class Tank extends Sprite {
     public void keyPressed(KeyEvent e) {
 
         int key = e.getKeyCode();
-
-
-        if (key == KeyEvent.VK_SPACE) {
-        	fire(e);
-        }
         
         if (key == KeyEvent.VK_LEFT) {
-            dx = -1;
-            
-            loadImage("tancovich/src/Resources/tankRedLeft.png");
-            getImageDimensions();
+        	r -= 5;
+        	loadImage("Resources/tank_bigRed.png");
+        	getImageDimensions();
+        	rotateImageByDegrees(r);
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            dx = 1;
-            
-            loadImage("tancovich/src/Resources/tankRedRight.png");
-            getImageDimensions();
+        	r += 5;
+        	loadImage("Resources/tank_bigRed.png");
+        	getImageDimensions();
+        	rotateImageByDegrees(r);
         }
 
         if (key == KeyEvent.VK_UP) {
-            dy = -1;
-            
-            loadImage("tancovich/src/Resources/tankRedUp.png");
-            getImageDimensions();
+            forward = 5;
         }
 
         if (key == KeyEvent.VK_DOWN) {
-            dy = 1;
-            
-            loadImage("tancovich/src/Resources/tankRedDown.png");
+            forward = -5;
+        }
+        
+        if (key == KeyEvent.VK_SPACE) {
+        	  fire(e);
+            dx = -1;            
+            loadImage("tancovich/src/Resources/tankRedLeft.png");
             getImageDimensions();
         }
         
-        if(key == (KeyEvent.VK_DOWN + KeyEvent.VK_RIGHT)) {
-            
-        	dy = -1;
-            
-            loadImage("tancovich/src/Resources/tank_blue.png");
-            getImageDimensions();
-        }
-    }
-
-    public void fire(KeyEvent e)
-    {       
-    	missiles.add(new Missile(x + width, y + height / 2));
     }
 
     public void keyReleased(KeyEvent e) {
@@ -98,19 +81,24 @@ public class Tank extends Sprite {
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
-            dx = 0;
+
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            dx = 0;
+
         }
 
         if (key == KeyEvent.VK_UP) {
-            dy = 0;
+            forward = 0;
         }
 
         if (key == KeyEvent.VK_DOWN) {
-            dy = 0;
+            forward = 0;
         }
+    }
+    
+    public void fire(KeyEvent e)
+    {       
+    	missiles.add(new Missile(x + width, y + height / 2));
     }
 }
