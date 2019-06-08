@@ -4,9 +4,7 @@ import java.util.List;
 
 public class Tank extends Sprite {
 
-    private int dx;
-    private int dy;
-    private int dr;
+    private int forward;
     private List<Missile> missiles;
 
     public Tank(int x, int y) {
@@ -19,14 +17,15 @@ public class Tank extends Sprite {
         missiles = new ArrayList<>();
         loadImage("Resources/tank_bigRed.png");
     	getImageDimensions();
-    	rotateImageByDegrees(45);
     }
     
     public void move() {
 
+    	x = (int)(x + (Math.sin(Math.toRadians(-r)) * forward));
+        y = (int)(y + (Math.cos(Math.toRadians(-r)) * forward));
+    	/*x
         x += dx;
         y += dy;
-        r += dr;
 
         if (x < 1) {
             x = 1;
@@ -34,7 +33,7 @@ public class Tank extends Sprite {
 
         if (y < 1) {
             y = 1;
-        }
+        }*/
     }
 
     public List<Missile> getMissiles() {
@@ -46,41 +45,25 @@ public class Tank extends Sprite {
         int key = e.getKeyCode();
         
         if (key == KeyEvent.VK_LEFT) {
-        	r -= 10;
+        	r -= 5;
         	loadImage("Resources/tank_bigRed.png");
         	getImageDimensions();
         	rotateImageByDegrees(r);
-            //dx = -1;
-            
-            /*loadImage("Resources/tank_bigRedLeft.png");
-            getImageDimensions();
-            image = rotateImageByDegrees(image, 45);*/
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-        	r += 10;
+        	r += 5;
         	loadImage("Resources/tank_bigRed.png");
         	getImageDimensions();
         	rotateImageByDegrees(r);
-        	
-            //dx = 1;
-            
-            /*
-            */
         }
 
         if (key == KeyEvent.VK_UP) {
-            dy = -1;
-            
-            //loadImage("Resources/tank_bigRedUp.png");
-            //getImageDimensions();
+            forward = 5;
         }
 
         if (key == KeyEvent.VK_DOWN) {
-            dy = 1;
-            
-            //loadImage("Resources/tank_bigRedDown.png");
-            //getImageDimensions();
+            forward = -5;
         }
         
         if (key == KeyEvent.VK_SPACE) {
@@ -93,19 +76,19 @@ public class Tank extends Sprite {
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
-            dx = 0;
+
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            dx = 0;
+
         }
 
         if (key == KeyEvent.VK_UP) {
-            dy = 0;
+            forward = 0;
         }
 
         if (key == KeyEvent.VK_DOWN) {
-            dy = 0;
+            forward = 0;
         }
     }
     

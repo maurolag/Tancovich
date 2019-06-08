@@ -30,7 +30,7 @@ public class Board extends JPanel implements ActionListener {
     private final int ICRAFT_Y = 60;
     private final int B_WIDTH = 800;
     private final int B_HEIGHT = 600;
-    private final int DELAY = 15;
+    private final int DELAY = 30;
     private Tank tank;
 
     private final int[][] pos = {
