@@ -3,7 +3,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -87,7 +86,7 @@ public class Board extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);        	
         
-        //drawBackground(g);
+        drawBackground(g);
         
         if (ingame) {
 
@@ -110,9 +109,6 @@ public class Board extends JPanel implements ActionListener {
     	
         if (tank.isVisible()) {
         	
-        	//tank.drawTank();        	
-        	//tank.getG2d().rotate(45);
-        	//tank.getG2d().rotate(45);
         	g.drawImage(tank.getImage(), tank.getX(), tank.getY(),this);
         }
 
@@ -146,8 +142,7 @@ public class Board extends JPanel implements ActionListener {
 
         g.setColor(Color.white);
         g.setFont(small);
-        g.drawString(msg, (B_WIDTH - fm.stringWidth(msg)) / 2,
-                B_HEIGHT / 2);
+        g.drawString(msg, (B_WIDTH - fm.stringWidth(msg)) / 2, B_HEIGHT / 2);
     }
 
     @Override

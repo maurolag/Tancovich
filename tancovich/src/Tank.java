@@ -1,5 +1,3 @@
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +6,7 @@ public class Tank extends Sprite {
 
     private int dx;
     private int dy;
+    private int dr;
     private List<Missile> missiles;
 
     public Tank(int x, int y) {
@@ -18,30 +17,16 @@ public class Tank extends Sprite {
     private void initCraft() {
 
         missiles = new ArrayList<>();
-        loadImage("Resources/tank_bigRedDown.png");
+        loadImage("Resources/tank_bigRed.png");
     	getImageDimensions();
-    	image = rotateImageByDegrees(image, 45);
-        //initGraph();
-    }
-    
-    public void drawTank() { 
-    	
-        //loadImage("Resources/tank_bigRedDown.png");
-        //getImageDimensions();
-    	initGraph();
-    	
-    }
-    
-    public void initGraph() {
-    	
-    	this.g2d = (Graphics2D) image.getGraphics();
-    	g2d.setColor(Color.black);
+    	rotateImageByDegrees(45);
     }
     
     public void move() {
 
         x += dx;
         y += dy;
+        r += dr;
 
         if (x < 1) {
             x = 1;
@@ -61,31 +46,41 @@ public class Tank extends Sprite {
         int key = e.getKeyCode();
         
         if (key == KeyEvent.VK_LEFT) {
-            dx = -1;
+        	r -= 10;
+        	loadImage("Resources/tank_bigRed.png");
+        	getImageDimensions();
+        	rotateImageByDegrees(r);
+            //dx = -1;
             
-            loadImage("Resources/tank_bigRedLeft.png");
+            /*loadImage("Resources/tank_bigRedLeft.png");
             getImageDimensions();
+            image = rotateImageByDegrees(image, 45);*/
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            dx = 1;
+        	r += 10;
+        	loadImage("Resources/tank_bigRed.png");
+        	getImageDimensions();
+        	rotateImageByDegrees(r);
+        	
+            //dx = 1;
             
-            loadImage("Resources/tank_bigRedRight.png");
-            getImageDimensions();
+            /*
+            */
         }
 
         if (key == KeyEvent.VK_UP) {
             dy = -1;
             
-            loadImage("Resources/tank_bigRedUp.png");
-            getImageDimensions();
+            //loadImage("Resources/tank_bigRedUp.png");
+            //getImageDimensions();
         }
 
         if (key == KeyEvent.VK_DOWN) {
             dy = 1;
             
-            loadImage("Resources/tank_bigRedDown.png");
-            getImageDimensions();
+            //loadImage("Resources/tank_bigRedDown.png");
+            //getImageDimensions();
         }
         
         if (key == KeyEvent.VK_SPACE) {
