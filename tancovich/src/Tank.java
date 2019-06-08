@@ -16,8 +16,7 @@ public class Tank extends Sprite {
 
         missiles = new ArrayList<>();
         loadImage("Resources/tankRed.png");
-    	  getImageDimensions();
-
+    	getImageDimensions();
     }
     
     public void move() {
