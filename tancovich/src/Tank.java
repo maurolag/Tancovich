@@ -16,7 +16,8 @@ public class Tank extends Sprite {
 
         missiles = new ArrayList<>();
         loadImage("Resources/tank_bigRed.png");
-    	getImageDimensions();
+    	  getImageDimensions();
+
     }
     
     public void move() {
@@ -67,8 +68,12 @@ public class Tank extends Sprite {
         }
         
         if (key == KeyEvent.VK_SPACE) {
-        	fire(e);
+        	  fire(e);
+            dx = -1;            
+            loadImage("tancovich/src/Resources/tankRedLeft.png");
+            getImageDimensions();
         }
+        
     }
 
     public void keyReleased(KeyEvent e) {

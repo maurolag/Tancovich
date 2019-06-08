@@ -1,6 +1,6 @@
 public class Missile extends Sprite {
 
-    private final int BOARD_WIDTH = 390;
+    private final int BOARD_WIDTH = 800;
     private final int MISSILE_SPEED = 2;
 
     public Missile(int x, int y) {

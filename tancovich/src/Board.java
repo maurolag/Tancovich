@@ -34,6 +34,7 @@ public class Board extends JPanel implements ActionListener {
     private Tank tank;
 
     private final int[][] pos = {
+    		
             {2380, 29}, {2500, 59}, {1380, 89},
             {780, 109}, {580, 139}, {680, 239},
             {790, 259}, {760, 50}, {790, 150},
@@ -48,7 +49,11 @@ public class Board extends JPanel implements ActionListener {
     public Board() {
     	
     	try {        	
+<<<<<<< HEAD
+        	background = ImageIO.read(getClass().getResourceAsStream("Resources/track.png"));
+=======
         	background = ImageIO.read(getClass().getResourceAsStream("Resources/track.jpg"));
+>>>>>>> refs/remotes/origin/master
         } catch (IOException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
