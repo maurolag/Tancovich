@@ -25,6 +25,25 @@ public class Enemy extends Sprite {
     	
     	List<Image> explosion = new ArrayList<Image>();
 
+<<<<<<< HEAD
+    		loadImage("tancovich/src/Resources/explosion1.png");
+    		explosion.add(getImage());
+    		getImageDimensions();
+
+    		loadImage("tancovich/src/Resources/explosion2.png");
+    		explosion.add(getImage());
+    		getImageDimensions();
+
+    		loadImage("tancovich/src/Resources/explosion3.png");
+    		explosion.add(getImage());
+    		getImageDimensions();
+
+    		loadImage("tancovich/src/Resources/explosion4.png");
+    		explosion.add(getImage());
+    		getImageDimensions();
+
+    		loadImage("tancovich/src/Resources/explosion5.png");
+=======
     		loadImage("src/Resources/explosion1.png");
     		explosion.add(getImage());
     		getImageDimensions();
@@ -42,6 +61,7 @@ public class Enemy extends Sprite {
     		getImageDimensions();
 
     		loadImage("src/Resources/explosion5.png");
+>>>>>>> refs/remotes/origin/master
     		explosion.add(getImage());
     		getImageDimensions();
 
