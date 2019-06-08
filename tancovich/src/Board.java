@@ -48,12 +48,8 @@ public class Board extends JPanel implements ActionListener {
 
     public Board() {
     	
-    	try {        	
-<<<<<<< HEAD
+    	try {
         	background = ImageIO.read(getClass().getResourceAsStream("Resources/track.png"));
-=======
-        	background = ImageIO.read(getClass().getResourceAsStream("Resources/track.jpg"));
->>>>>>> refs/remotes/origin/master
         } catch (IOException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
