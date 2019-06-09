@@ -4,12 +4,13 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
@@ -153,7 +154,7 @@ public class Board extends JPanel implements ActionListener {
 
         updateShip();
         updateMissiles();
-        updateenemies();
+        updateEnemies();
 
         checkCollisions();
 
@@ -191,7 +192,7 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
-    private void updateenemies() {
+    private void updateEnemies() {
 
         if (enemies.isEmpty()) {
 
@@ -213,13 +214,13 @@ public class Board extends JPanel implements ActionListener {
 
     public void checkCollisions() {
 
-        Rectangle r3 = tank.getBounds();
+        Shape r3 = tank.getShape();
 
         for (Enemy enemy : enemies) {
 
-            Rectangle r2 = enemy.getBounds();
+        	Shape r2 = enemy.getShape();
 
-            if (r3.intersects(r2)) {
+            if (testIntersection(r2,r3)) {
 
                 tank.setVisible(false);
                 enemy.setVisible(false);
@@ -231,13 +232,13 @@ public class Board extends JPanel implements ActionListener {
 
         for (Missile m : ms) {
 
-            Rectangle r1 = m.getBounds();
+            Shape r1 = m.getShape();
 
             for (Enemy enemy : enemies) {
 
-                Rectangle r2 = enemy.getBounds();
+                Shape r2 = enemy.getShape();
 
-                if (r1.intersects(r2)) {
+                if (testIntersection(r1,r2)) {
                 	
                 	m.setVisible(false);
                     enemy.setVisible(false);
@@ -246,6 +247,12 @@ public class Board extends JPanel implements ActionListener {
                 }
             }
         }
+    }
+    
+    public static boolean testIntersection(Shape shapeA, Shape shapeB) {
+    	Area areaA = new Area(shapeA);
+    	areaA.intersect(new Area(shapeB));
+    	return !areaA.isEmpty();
     }
 
     private class TAdapter extends KeyAdapter {
