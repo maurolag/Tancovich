@@ -10,8 +10,9 @@ public class Missile extends Sprite {
 
     private void initMissile() {
 
-        loadImage("Resources/bulletDark1.png");
+        loadImage("Resources/bulletDark2.png");
         getImageDimensions();
+        rotateImageByDegrees(180+r);
     }
 
     public void move() {

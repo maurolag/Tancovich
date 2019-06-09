@@ -84,6 +84,6 @@ public class Tank extends Sprite {
     
     public void fire(KeyEvent e)
     {       
-    	missiles.add(new Missile(x + width, y + height / 2, this.r));
+    	missiles.add(new Missile(x + width / 2, y + height / 2, this.r));
     }
 }
