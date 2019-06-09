@@ -14,7 +14,7 @@ public class Enemy extends Sprite {
 
     private void initEnemy() {
 
-        loadImage("Resources/tank_blue.png");
+        loadImage("Resources/tankBlue.png");
         getImageDimensions();
     }
     

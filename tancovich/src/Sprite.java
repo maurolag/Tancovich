@@ -26,6 +26,14 @@ public class Sprite {
         this.y = y;
         visible = true;
     }
+    
+    public Sprite(int x, int y, int r) {
+
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        visible = true;
+    }
 
     protected void getImageDimensions() {
 
@@ -65,6 +73,7 @@ public class Sprite {
         g2d.setColor(transparent);
         g2d.drawRect(0, 0, newWidth - 1, newHeight - 1);
         g2d.dispose();
+        
         image = rotated;
     }
 
@@ -78,6 +87,10 @@ public class Sprite {
 
     public int getY() {
         return y;
+    }
+    
+    public int getR() {
+        return r;
     }
 
     public boolean isVisible() {
