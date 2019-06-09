@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 public class Board extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private BufferedImage background;
     private Timer timer;
     private List<Enemy> enemies;
     private boolean ingame;
@@ -32,6 +31,7 @@ public class Board extends JPanel implements ActionListener {
     private final int B_WIDTH = 800;
     private final int B_HEIGHT = 600;
     private final int DELAY = 30;
+    private BufferedImage background;
     private Tank tank;
 
     private final int[][] pos = {
@@ -49,11 +49,6 @@ public class Board extends JPanel implements ActionListener {
 
     public Board() {
     	
-    	try {
-        	background = ImageIO.read(getClass().getResourceAsStream("Resources/track.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-        }
         initBoard();
     }
 
@@ -61,7 +56,6 @@ public class Board extends JPanel implements ActionListener {
 
         addKeyListener(new TAdapter());
         setFocusable(true);
-        
         
         ingame = true;
 
@@ -104,6 +98,11 @@ public class Board extends JPanel implements ActionListener {
     
     private void drawBackground(Graphics g)
     {
+    	try {
+        	background = ImageIO.read(getClass().getResourceAsStream("Resources/track.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+        }
     	g.drawImage(background, 0, 0, null);
     }
 
