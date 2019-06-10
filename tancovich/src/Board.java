@@ -117,9 +117,16 @@ public class Board extends JPanel implements ActionListener {
 
         for (Missile missile : ms) {
             if (missile.isVisible()) {
-                g.drawImage(missile.getImage(), missile.getX(),
-                        missile.getY(), this);
+                g.drawImage(missile.getImage(), missile.getX(), missile.getY(), this);
             }
+        }
+        
+        List<Mine> pm = tank.getMines();
+
+        for (Mine mine : pm) {
+        	if(mine.isVisible()) {
+                g.drawImage(mine.getImage(), mine.getX(), mine.getY(), this);
+        	}
         }
 
         for (Enemy enemy : enemies) {
@@ -132,7 +139,7 @@ public class Board extends JPanel implements ActionListener {
         }
 
         g.setColor(Color.WHITE);
-        g.drawString("enemies left: " + enemies.size(), 5, 15);
+        g.drawString("Enemies left: " + enemies.size(), 5, 15);
     }
 
     private void drawGameOver(Graphics g) {
@@ -150,13 +157,11 @@ public class Board extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         inGame();
-
         updateShip();
         updateMissiles();
+        updateMines();
         updateEnemies();
-
         checkCollisions();
-
         repaint();
     }
 
@@ -190,6 +195,21 @@ public class Board extends JPanel implements ActionListener {
             }
         }
     }
+    
+    private void updateMines() {
+    	
+    	List <Mine> pm = tank.getMines();
+		for (int i = 0; i < pm.size(); i++) {
+			Mine mp = pm.get(i);
+	
+			if (mp.isVisible()) {
+				mp.plantMine();
+			} 
+			else {
+				pm.remove(i);
+			}
+		}
+	}
 
     private void updateEnemies() {
 
@@ -246,7 +266,28 @@ public class Board extends JPanel implements ActionListener {
                 }
             }
         }
-    }
+	       
+        List<Mine> pm = tank.getMines();
+	
+	        
+        for (Mine mp : pm) {
+	
+        	Shape r1 = mp.getShape();
+	
+	        for (Enemy enemy : enemies) {
+	
+	        		Shape r2 = enemy.getShape();
+	
+	        		if (testIntersection(r1,r2)) {
+	
+	        			mp.setVisible(false);
+	        			enemy.setVisible(false);
+	
+	        			enemy.destroyEnemy();
+	        		}
+	        	}
+	        }
+    }    
     
     public static boolean testIntersection(Shape shapeA, Shape shapeB) {
     	Area areaA = new Area(shapeA);
