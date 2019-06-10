@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /Board$TAdapter.class
 /Board.class
 /Enemy.class
@@ -8,3 +9,7 @@
 /Tank.class
 /Vec3.class
 /Mine.class
+=======
+/Resources/
+/Game.class
+>>>>>>> remotes/origin/master
