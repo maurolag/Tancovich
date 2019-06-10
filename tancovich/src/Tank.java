@@ -6,7 +6,6 @@ public class Tank extends Sprite {
 
     private int forward;
     private List<Missile> missiles;
-    private List <Mine> mines;
 
     public Tank(int x, int y) {
         super(x, y);
@@ -16,8 +15,6 @@ public class Tank extends Sprite {
     private void initCraft() {
 
         missiles = new ArrayList<>();
-        mines = new ArrayList<Mine>();
-        
         loadImage("Resources/tankRed.png");
     	getImageDimensions();
     }
@@ -30,10 +27,6 @@ public class Tank extends Sprite {
 
     public List<Missile> getMissiles() {
         return missiles;
-    }
-    
-    public List<Mine> getMines(){
-    	return mines;
     }
 
     public void keyPressed(KeyEvent e) {
@@ -66,10 +59,6 @@ public class Tank extends Sprite {
         	fire(e);
         }
         
-        if (key == KeyEvent.VK_C) {
-        	plantMines(e);
-        }
-        
     }
 
     public void keyReleased(KeyEvent e) {
@@ -96,9 +85,5 @@ public class Tank extends Sprite {
     public void fire(KeyEvent e)
     {       
     	missiles.add(new Missile(x + width / 2, y + height / 2, this.r));
-    }
-    
-    public void plantMines (KeyEvent e) {
-    	mines.add(new Mine(x + width, y + height /2));
     }
 }
