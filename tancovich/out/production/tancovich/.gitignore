@@ -6,4 +6,5 @@
 /Resources/
 /Sprite.class
 /Tank.class
-/Mines.class
+/Vec3.class
+/Mine.class
