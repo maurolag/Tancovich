@@ -7,9 +7,13 @@
 /Resources/
 /Sprite.class
 /Tank.class
+<<<<<<< HEAD
 /Vec3.class
 /Mine.class
 =======
 /Resources/
 /Game.class
 >>>>>>> remotes/origin/master
+=======
+/Mines.class
+>>>>>>> 82be4dc2e03f92f6ce2a2b10cee50491a33791a4
