@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class Sprite {
         	image = ImageIO.read(getClass().getResourceAsStream(imageName));
         } catch (IOException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-        }    	
+        }
     }
     
     public void rotateImageByDegrees(double angle) {
@@ -57,6 +58,7 @@ public class Sprite {
         int y = h / 2;
 
         at.rotate(rads, x, y);
+        at.createTransformedShape(new Rectangle(width, height)).getBounds();
         g2d.setTransform(at);
         g2d.drawImage(image, 0, 0, null);
         Color transparent = new Color(0f, 0f, 0f, 0f);
@@ -86,7 +88,8 @@ public class Sprite {
         this.visible = visible;
     }
 
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+    public Shape getShape() {
+    	Shape bounds = new Rectangle(x, y, width, height);
+        return bounds;
     }
 }
