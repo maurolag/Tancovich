@@ -1,6 +1,7 @@
 public class Missile extends Sprite {
 
     private final int BOARD_WIDTH = 800;
+    private final int BOARD_HEIGHT = 600;
     private final int MISSILE_SPEED = 4;
 
     public Missile(int x, int y, int r) {
@@ -21,7 +22,10 @@ public class Missile extends Sprite {
         y = (int)(y + (Math.cos(Math.toRadians(-r)) * MISSILE_SPEED));
         //x += MISSILE_SPEED;
 
-        if (x > BOARD_WIDTH)
+        if (x < 0 || x > BOARD_WIDTH)
+            visible = false;
+        
+        if (y < 0 || y > BOARD_HEIGHT)
             visible = false;
     }
 }
