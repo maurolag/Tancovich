@@ -121,7 +121,16 @@ public class Board extends JPanel implements ActionListener {
                         missile.getY(), this);
             }
         }
-
+        
+        List<Mine> pm = tank.getMines();
+        
+        for (Mine mine : pm) {
+        	if(mine.isVisible()) {
+                g.drawImage(mine.getImage(), mine.getX(),
+                        mine.getY(), this);
+        	}
+        }
+        
         for (Enemy enemy : enemies) {
             if (enemy.isVisible()) {
                 g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), this);
@@ -154,7 +163,7 @@ public class Board extends JPanel implements ActionListener {
         updateShip();
         updateMissiles();
         updateEnemies();
-
+        updateMines();
         checkCollisions();
 
         repaint();
@@ -190,7 +199,22 @@ public class Board extends JPanel implements ActionListener {
             }
         }
     }
-
+    
+    private void updateMines() {
+    	List <Mine> pm = tank.getMines();
+    	
+    	for (int i = 0; i < pm.size(); i++) {
+    		Mine mp = pm.get(i);
+    		
+    		if (mp.isVisible()) {
+    			mp.plantMine();
+    		}else {
+    				pm.remove(i);
+    			}
+    		}
+    	}
+    
+    
     private void updateEnemies() {
 
         if (enemies.isEmpty()) {
@@ -245,6 +269,26 @@ public class Board extends JPanel implements ActionListener {
                     enemy.destroyEnemy();
                 }
             }
+        }
+        
+        List<Mine> pm = tank.getMines();
+        
+        for (Mine mp : pm) {
+        	
+        	Rectangle r1 = mp.getBounds();
+        	
+        	for (Enemy enemy : enemies) {
+        		
+        		Rectangle r2 = enemy.getBounds();
+        		
+        		if (r1.intersects(r2)) {
+        			
+        			mp.setVisible(false);
+        			enemy.setVisible(false);
+        			
+        			enemy.destroyEnemy();
+        		}
+        	}
         }
     }
     
