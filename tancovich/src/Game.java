@@ -1,5 +1,10 @@
 import java.awt.EventQueue;
+import java.awt.Image;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Game extends JFrame {
 
