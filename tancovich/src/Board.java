@@ -7,9 +7,7 @@ import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-//import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,7 +57,6 @@ private final int[][] tankPositions = {
 
     private void initBoard() {
 
-        //addKeyListener(new TAdapter());
         setFocusable(true);
         
         ingame = true;
@@ -125,7 +122,7 @@ private final int[][] tankPositions = {
     	{
     		if (tank.isVisible()) {
             	
-            	g.drawImage(tank.getImage(), tank.getX(), tank.getY(),this);
+            	g.drawImage(tank.getImage(), tank.getX(), tank.getY(), this);
             }
     		
     		List<Missile> ms = tank.getMissiles();
@@ -242,7 +239,7 @@ private final int[][] tankPositions = {
 
         	Shape r2 = enemy.getShape();
 
-            if (testIntersection(r2,r3)) {
+            if (Sprite.testIntersection(r2,r3)) {
 
                 tank.setVisible(false);
                 enemy.setVisible(false);
@@ -260,7 +257,7 @@ private final int[][] tankPositions = {
 
                 Shape r2 = enemy.getShape();
 
-                if (testIntersection(r1,r2)) {
+                if (Sprite.testIntersection(r1,r2)) {
                 	
                 	m.setVisible(false);
                     enemy.setVisible(false);
@@ -281,7 +278,7 @@ private final int[][] tankPositions = {
 	
 	        	Shape r2 = enemy.getShape();
 	
-	        	if (testIntersection(r1,r2)) {
+	        	if (Sprite.testIntersection(r1,r2)) {
 	
 	        		mp.setVisible(false);
 	        		enemy.setVisible(false);
@@ -311,12 +308,6 @@ private final int[][] tankPositions = {
         }
     }
     
-    public static boolean testIntersection(Shape shapeA, Shape shapeB) {
-    	Area areaA = new Area(shapeA);
-    	areaA.intersect(new Area(shapeB));
-    	return !areaA.isEmpty();
-    }
-    
     @Override
     protected void processKeyEvent(KeyEvent e) {
         if (e.getID() == KeyEvent.KEY_PRESSED) {
@@ -326,23 +317,4 @@ private final int[][] tankPositions = {
             Keyboard.keydown[e.getKeyCode()] = false;
         }
     }
-
-    /*private class TAdapter extends KeyAdapter {
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-        	for (Tank tank : tanks)
-        	{
-        		tank.keyReleased(e);
-        	}
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-        	for (Tank tank : tanks)
-        	{
-        		tank.keyPressed(e);
-        	}
-        }
-    }*/
 }

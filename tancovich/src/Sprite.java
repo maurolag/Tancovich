@@ -1,9 +1,8 @@
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -50,31 +49,18 @@ public class Sprite {
     }
     
     public void rotateImageByDegrees(double angle) {
-
-        double rads = Math.toRadians(angle);
-        double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
-        int w = image.getWidth();
-        int h = image.getHeight();
-        int newWidth = (int) Math.floor(w * cos + h * sin);
-        int newHeight = (int) Math.floor(h * cos + w * sin);
-
-        BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = rotated.createGraphics();
-        AffineTransform at = new AffineTransform();
-
-        int x = w / 2;
-        int y = h / 2;
-
-        at.rotate(rads, x, y);
-        at.createTransformedShape(new Rectangle(width, height)).getBounds();
-        g2d.setTransform(at);
-        g2d.drawImage(image, 0, 0, null);
-        Color transparent = new Color(0f, 0f, 0f, 0f);
-        g2d.setColor(transparent);
-        g2d.drawRect(0, 0, newWidth - 1, newHeight - 1);
-        g2d.dispose();
+    	double rads = Math.toRadians(angle);
+        double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));        
+        int w = image.getWidth(), h = image.getHeight();
+        int neww = (int)Math.floor(w*cos+h*sin), newh = (int)Math.floor(h*cos+w*sin);
         
-        image = rotated;
+        BufferedImage result = new BufferedImage(neww, newh, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = result.createGraphics();
+        //g.translate((neww-w)/2, (newh-h)/2);
+        g.rotate(rads, w/2, h/2);
+        g.drawRenderedImage(image, null);
+        g.dispose();
+        image = result;
     }
 
     public Image getImage() {
@@ -104,5 +90,11 @@ public class Sprite {
     public Shape getShape() {
     	Shape bounds = new Rectangle(x, y, width, height);
         return bounds;
+    }
+    
+    public static boolean testIntersection(Shape shapeA, Shape shapeB) {
+    	Area areaA = new Area(shapeA);
+    	areaA.intersect(new Area(shapeB));
+    	return !areaA.isEmpty();
     }
 }
