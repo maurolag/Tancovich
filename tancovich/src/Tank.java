@@ -1,4 +1,3 @@
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,63 +126,6 @@ public class Tank extends Sprite {
     
     public List<Mine> getMines() {
         return mines;
-    }
-
-    public void keyPressed(KeyEvent e) {
-
-        int key = e.getKeyCode();
-        
-        if(id == 1)
-        {
-            if (key == KeyEvent.VK_LEFT) {
-            	r -= 5;
-            }
-
-            if (key == KeyEvent.VK_RIGHT) {
-            	r += 5;
-            }
-
-            if (key == KeyEvent.VK_UP) {
-                forward = 5;
-            }
-
-            if (key == KeyEvent.VK_DOWN) {
-                forward = -5;
-            }
-            
-            if (key == KeyEvent.VK_SPACE) {
-            	fire();
-            }            
-            if (key == KeyEvent.VK_C) {
-            	plantMines();
-            }
-        }
-        else if(id == 2)
-        {
-        	if (key == KeyEvent.VK_A) {
-            	r -= 5;
-            }
-
-            if (key == KeyEvent.VK_D) {
-            	r += 5;
-            }
-
-            if (key == KeyEvent.VK_W) {
-                forward = 5;
-            }
-
-            if (key == KeyEvent.VK_S) {
-                forward = -5;
-            }
-            
-            if (key == KeyEvent.VK_F) {
-            	fire();
-            }
-            
-            if (key == KeyEvent.VK_G) {
-            	plantMines();
-            }
-        }
     }
     
     public void fire()
