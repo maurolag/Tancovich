@@ -2,7 +2,7 @@ public class Missile extends Sprite {
 
     private final int BOARD_WIDTH = 800;
     private final int BOARD_HEIGHT = 600;
-    private final int MISSILE_SPEED = 4;
+    private final int MISSILE_SPEED = 5;
 
     public Missile(int x, int y, int r) {
         super(x, y, r);

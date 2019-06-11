@@ -7,6 +7,8 @@ public class Tank extends Sprite {
     private int forward;
     private List<Missile> missiles;
     private List<Mine> mines;
+    private boolean fireControl = false;
+    private boolean mineControl = false;
 
     public Tank(int id, int x, int y) {
         super(x, y);
@@ -58,12 +60,22 @@ public class Tank extends Sprite {
 	        	}
         	}
         	
-        	if (Keyboard.keydown[32]) {
+        	if (Keyboard.keydown[32] && !fireControl) {
             	fire();
+            	fireControl = true;
             }
+        	if(!Keyboard.keydown[32])
+        	{
+        		fireControl = false;
+        	}
             
-            if (Keyboard.keydown[67]) {
+            if (Keyboard.keydown[67] && !mineControl) {
             	plantMines();
+            	mineControl = true;
+            }
+            if(!Keyboard.keydown[67])
+            {
+            	mineControl = false;
             }
     	}
     	else if(id == 2)
@@ -83,22 +95,28 @@ public class Tank extends Sprite {
         	}
         	else
         	{
-	        	if (Keyboard.keydown[87])
+	        	if(Keyboard.keydown[87])
 	        	{
 	        		forward = 5;
 	        	}
-	        	if (Keyboard.keydown[83])
+	        	if(Keyboard.keydown[83])
 	        	{
 	        		forward = -5;
 	        	}
         	}
     		
-    		if (Keyboard.keydown[70]) {
+    		if(Keyboard.keydown[70] && !fireControl) {
             	fire();
             }
+    		if(!Keyboard.keydown[70]) {
+    			fireControl = false;
+            }
             
-            if (Keyboard.keydown[71]) {
+            if(Keyboard.keydown[71] && !mineControl) {
             	plantMines();
+            }
+            if(!Keyboard.keydown[71]) {
+            	mineControl = false;
             }
     	}
     	
