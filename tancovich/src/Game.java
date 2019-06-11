@@ -12,14 +12,19 @@ public class Game extends JFrame {
 
     private void initUI() {
 
+    	try {
+	    		Image background = ImageIO.read(getClass().getResourceAsStream("Resources/tankRed.png"));
+	    		setIconImage(background);
+    		} catch (IOException ex) {
+    			Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+			}
+    	
         add(new Board());
 
         setResizable(false);
         pack();
 
         setTitle("Tancovich");
-        //Setear la imagen aca abajo cuando se obtenga el icono del juego:
-        //setIconImage();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
