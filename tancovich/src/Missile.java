@@ -20,7 +20,6 @@ public class Missile extends Sprite {
 
     	x = (int)(x + (Math.sin(Math.toRadians(-r)) * MISSILE_SPEED));
         y = (int)(y + (Math.cos(Math.toRadians(-r)) * MISSILE_SPEED));
-        //x += MISSILE_SPEED;
 
         if (x < 0 || x > BOARD_WIDTH)
             visible = false;
