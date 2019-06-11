@@ -326,23 +326,4 @@ private final int[][] tankPositions = {
             Keyboard.keydown[e.getKeyCode()] = false;
         }
     }
-
-    /*private class TAdapter extends KeyAdapter {
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-        	for (Tank tank : tanks)
-        	{
-        		tank.keyReleased(e);
-        	}
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-        	for (Tank tank : tanks)
-        	{
-        		tank.keyPressed(e);
-        	}
-        }
-    }*/
 }
