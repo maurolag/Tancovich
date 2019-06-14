@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.Image;
 
-public class Enemy extends Sprite {
+public class Enemy extends Sprite implements Entity {
 
     private final int INITIAL_X = 400;
 
@@ -12,7 +12,7 @@ public class Enemy extends Sprite {
         init();
     }
 
-    private void init() {
+    public void init() {
 
         loadImage("Resources/tankBlue.png");
         getImageDimensions();

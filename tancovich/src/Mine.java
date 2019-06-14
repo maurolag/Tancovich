@@ -1,11 +1,11 @@
-public class Mine extends Sprite{
+public class Mine extends Sprite implements Entity {
 	
 	public Mine(int x, int y) {
 		super(x, y);		
 		init();
 	}
     
-	private void init() {
+	public void init() {
 
         loadImage("Resources/mina.png");
     }

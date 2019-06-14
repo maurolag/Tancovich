@@ -1,4 +1,4 @@
-public class Missile extends Sprite {
+public class Missile extends Sprite implements Entity {
 
     private final int BOARD_WIDTH = 800;
     private final int BOARD_HEIGHT = 600;
@@ -10,7 +10,7 @@ public class Missile extends Sprite {
         init();
     }
 
-    private void init() {
+    public void init() {
 
         loadImage("Resources/bulletDark2.png", 180+r);
     }
