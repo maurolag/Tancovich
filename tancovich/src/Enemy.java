@@ -2,17 +2,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.Image;
 
-public class Enemy extends Sprite {
+public class Enemy extends Sprite implements Entity {
 
     private final int INITIAL_X = 400;
 
     public Enemy(int x, int y) {
         super(x, y);
 
-        initEnemy();
+        init();
     }
 
-    private void initEnemy() {
+    public void init() {
 
         loadImage("Resources/tankBlue.png");
         getImageDimensions();
@@ -20,6 +20,7 @@ public class Enemy extends Sprite {
     
     public void destroyEnemy() {
         
+    	
 		loadImage("Resources/explosion2.png");
 		getImageDimensions();
     	
@@ -47,7 +48,7 @@ public class Enemy extends Sprite {
 
     }
 
-    public void move() {
+    public void update() {
 
         if (x < 0) {
             x = INITIAL_X;
