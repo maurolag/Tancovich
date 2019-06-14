@@ -40,6 +40,7 @@ public class Tank extends Sprite implements Entity {
     }
     
     public void update() {
+    	
     	checkControls();
     	
     	x = x + (int)(Math.sin(Math.toRadians(-r)) * forward);
@@ -57,45 +58,42 @@ public class Tank extends Sprite implements Entity {
     
     public void checkControls()
     {
-    	if (Keyboard.keydown[tankControls[id-1][0]])
+    	if (Keyboard.keydown[tankControls[id-1][0]]) //Izquierda
     	{
     		r -= 5;
     	}        	
-    	if (Keyboard.keydown[tankControls[id-1][2]])
+    	if (Keyboard.keydown[tankControls[id-1][2]]) //Derecha
     	{
     		r += 5;
-    	}
-    	
+    	}    	
     	if(!Keyboard.keydown[tankControls[id-1][3]] && !Keyboard.keydown[tankControls[id-1][1]])
     	{
-    		forward = 0;
+    		if(forward > 0) forward -= 1;
     	}
     	else
     	{
-        	if (Keyboard.keydown[tankControls[id-1][1]])
+        	if (Keyboard.keydown[tankControls[id-1][1]]) //Velocidad
         	{
         		forward = 5;
         	}
-        	if (Keyboard.keydown[tankControls[id-1][3]])
+        	if (Keyboard.keydown[tankControls[id-1][3]]) //Freno
         	{
         		forward = -5;
         	}
-    	}
-    	
+    	}    	
     	if (Keyboard.keydown[tankControls[id-1][4]] && !fireControl) {
         	fire();
         	fireControl = true;
         }
-    	if(!Keyboard.keydown[tankControls[id-1][4]])
+    	if(!Keyboard.keydown[tankControls[id-1][4]]) // Tiro
     	{
     		fireControl = false;
-    	}
-        
+    	}        
         if (Keyboard.keydown[tankControls[id-1][5]] && !mineControl) {
         	plant();
         	mineControl = true;
         }
-        if(!Keyboard.keydown[tankControls[id-1][5]])
+        if(!Keyboard.keydown[tankControls[id-1][5]]) // Mina
         {
         	mineControl = false;
         }
