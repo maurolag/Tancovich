@@ -30,6 +30,7 @@ public class Board extends JPanel implements ActionListener {
     private boolean ingame;
     private List<Tank> tanks;
     private List<Enemy> enemies;
+    private List<ProgressBar> bars;
     private Timer timer;
     
     private final int[][] tankPositions = {
@@ -65,6 +66,7 @@ public class Board extends JPanel implements ActionListener {
 
         initTanks();
         initEnemies();
+        initBars();
 
         timer = new Timer(DELAY, this);
         timer.start();
@@ -86,6 +88,21 @@ public class Board extends JPanel implements ActionListener {
         for (int[] p : enemyPositions) {
             enemies.add(new Enemy(p[0], p[1]));
         }
+    }
+    
+    public void initBars() {
+    	
+    	bars = new ArrayList<>();
+    	
+    	for (Tank t : tanks) {
+    		
+    		ProgressBar p = new ProgressBar("Jugador");
+            p.setValue(t.getHealth());
+            p.setBounds(15, 15, 300, 15);
+            this.add(p);
+            this.setVisible(true);
+            
+    	}
     }
 
     @Override

@@ -9,13 +9,15 @@ public class Tank extends Sprite implements Entity {
     private List<Mine> mines;
     private boolean fireControl = false;
     private boolean mineControl = false;
-    
-    private final int[][] tankControls = {
-    		
+    private int health = 100;
+
+	private final int[][] tankControls = {
+    		    		
             {37, 38, 39, 40, 32, 17}, 
-            {65, 87, 68, 83, 70, 71}, 
-            {100, 104, 102, 101, 106, 109},
-            {74, 73, 76, 75, 44, 46}
+            {65, 87, 68, 83, 70, 71},
+            {74, 73, 76, 75, 79, 80},
+    		{100, 104, 102, 101, 106, 109}            
+            
     };
 
     public Tank(int id, int x, int y) {
@@ -23,6 +25,22 @@ public class Tank extends Sprite implements Entity {
         this.id = id;
         init();
     }
+    
+    public List<Missile> getMissiles() {
+        return missiles;
+    }
+    
+    public List<Mine> getMines() {
+        return mines;
+    }
+    
+    public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
 
     public void init() {
 
@@ -109,13 +127,5 @@ public class Tank extends Sprite implements Entity {
     
     public void plant() {
     	mines.add(new Mine(x + width / 2, y + height /2));
-    }
-    
-    public List<Missile> getMissiles() {
-        return missiles;
-    }
-    
-    public List<Mine> getMines() {
-        return mines;
     }
 }
