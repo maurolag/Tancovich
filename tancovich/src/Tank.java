@@ -60,15 +60,18 @@ public class Tank extends Sprite implements Entity {
     {
     	if (Keyboard.keydown[tankControls[id-1][0]]) //Izquierda
     	{
-    		r -= 5;
-    	}        	
+    		if(forward >= 0) r -= 5;
+    		else r += 5;
+    		
+    	}
     	if (Keyboard.keydown[tankControls[id-1][2]]) //Derecha
     	{
-    		r += 5;
-    	}    	
+    		if(forward >= 0) r += 5;
+    		else r -= 5;
+    	}
     	if(!Keyboard.keydown[tankControls[id-1][3]] && !Keyboard.keydown[tankControls[id-1][1]])
     	{
-    		if(forward > 0) forward -= 1;
+    		forward = 0;
     	}
     	else
     	{

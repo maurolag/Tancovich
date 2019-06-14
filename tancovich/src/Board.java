@@ -22,18 +22,19 @@ import javax.swing.Timer;
 public class Board extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-    private Timer timer;
-    private boolean ingame;
     private final int B_WIDTH = 800;
     private final int B_HEIGHT = 600;
     private final int DELAY = 30;
+    
     private BufferedImage background;
+    private boolean ingame;
     private List<Tank> tanks;
     private List<Enemy> enemies;
+    private Timer timer;
     
-private final int[][] tankPositions = {
+    private final int[][] tankPositions = {
     		
-            {1, 40, 60}, 
+            {1, 40, 60},
             {2, 760, 540}
     };
 
@@ -58,10 +59,9 @@ private final int[][] tankPositions = {
     private void initBoard() {
 
         setFocusable(true);
+        setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
         
         ingame = true;
-
-        setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
 
         initTanks();
         initEnemies();

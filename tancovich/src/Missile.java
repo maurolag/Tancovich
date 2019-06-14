@@ -2,7 +2,7 @@ public class Missile extends Sprite implements Entity {
 
     private final int BOARD_WIDTH = 800;
     private final int BOARD_HEIGHT = 600;
-    private final int MISSILE_SPEED = 5;
+    private final int MISSILE_SPEED = 6;
     private int bounce = 0;
 
     public Missile(int x, int y, int r) {
