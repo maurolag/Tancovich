@@ -33,34 +33,45 @@ public class Sprite {
         this.r = r;
         visible = true;
     }
-
-    protected void getImageDimensions() {
-
-        width = image.getWidth(null);
-        height = image.getHeight(null);
-    }
-
+    
     protected void loadImage(String imageName) {
     	try {        	
         	image = ImageIO.read(getClass().getResourceAsStream(imageName));
         } catch (IOException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
+    	getImageDimensions();
+    }
+
+    protected void loadImage(String imageName, int angle) {
+    	try {        	
+        	image = ImageIO.read(getClass().getResourceAsStream(imageName));
+        } catch (IOException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    	if(angle != 0) image = rotate(image, angle);
+    	getImageDimensions();
     }
     
-    public void rotateImageByDegrees(double angle) {
+    protected void getImageDimensions() {
+
+        width = image.getWidth(null);
+        height = image.getHeight(null);
+    }
+    
+    public BufferedImage rotate(BufferedImage img, double angle) {
     	double rads = Math.toRadians(angle);
         double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));        
-        int w = image.getWidth(), h = image.getHeight();
+        int w = img.getWidth(), h = img.getHeight();
         int neww = (int)Math.floor(w*cos+h*sin), newh = (int)Math.floor(h*cos+w*sin);
         
         BufferedImage result = new BufferedImage(neww, newh, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = result.createGraphics();
-        //g.translate((neww-w)/2, (newh-h)/2);
+        g.translate((neww-w)/2, (newh-h)/2);
         g.rotate(rads, w/2, h/2);
-        g.drawRenderedImage(image, null);
+        g.drawRenderedImage(img, null);
         g.dispose();
-        image = result;
+        return result;
     }
 
     public Image getImage() {

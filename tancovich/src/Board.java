@@ -196,7 +196,7 @@ private final int[][] tankPositions = {
 
         if (tank.isVisible()) {
 
-            tank.move();
+            tank.update();
         }
     }
 
@@ -209,7 +209,7 @@ private final int[][] tankPositions = {
             Missile m = ms.get(i);
 
             if (m.isVisible()) {
-                m.move();
+                m.update();
             } else {
                 ms.remove(i);
             }
@@ -223,13 +223,33 @@ private final int[][] tankPositions = {
 			Mine mp = pm.get(i);
 	
 			if (mp.isVisible()) {
-				mp.plantMine();
+				mp.update();
 			} 
 			else {
 				pm.remove(i);
 			}
 		}
 	}
+    
+    private void updateEnemies() {
+
+        if (enemies.isEmpty()) {
+
+            ingame = false;
+            return;
+        }
+
+        for (int i = 0; i < enemies.size(); i++) {
+
+            Enemy a = enemies.get(i);
+
+            if (a.isVisible()) {
+                a.update();
+            } else {
+                enemies.remove(i);
+            }
+        }
+    }
 
     public void checkCollisions(Tank tank) {
 
@@ -260,8 +280,7 @@ private final int[][] tankPositions = {
                 if (Sprite.testIntersection(r1,r2)) {
                 	
                 	m.setVisible(false);
-                    enemy.setVisible(false);
-                    
+                    enemy.setVisible(false);                    
                     enemy.destroyEnemy();
                 }
             }
@@ -285,26 +304,6 @@ private final int[][] tankPositions = {
 	        		enemy.destroyEnemy();
 	        	}
 	        }
-        }
-    }
-    
-    private void updateEnemies() {
-
-        if (enemies.isEmpty()) {
-
-            ingame = false;
-            return;
-        }
-
-        for (int i = 0; i < enemies.size(); i++) {
-
-            Enemy a = enemies.get(i);
-
-            if (a.isVisible()) {
-                a.move();
-            } else {
-                enemies.remove(i);
-            }
         }
     }
     
