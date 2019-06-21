@@ -8,9 +8,6 @@ import java.awt.Graphics2D;
 
 import javax.swing.JProgressBar;
 
-/**
- * A progressBar that looks like the progress bar from Ubuntu 9.04 Human Theme
- */
 public class ProgressBar extends JProgressBar {
     private static final long serialVersionUID = 1L;
 

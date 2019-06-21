@@ -4,12 +4,14 @@ import java.util.List;
 public class Tank extends Sprite implements Entity {
 
 	private int id;
-    private int forward;
+    private int forward;    
     private List<Missile> missiles;
     private List<Mine> mines;
     private boolean fireControl = false;
     private boolean mineControl = false;
     private int health = 100;
+    //private int impacts = 0;
+    //18/32
 
 	private final int[][] tankControls = {
     		    		
@@ -40,6 +42,18 @@ public class Tank extends Sprite implements Entity {
 
 	public void setHealth(int health) {
 		this.health = health;
+	}
+	
+	public int getForward() {
+		return forward;		
+	}
+	
+	public void setForward(int forward) {
+		this.forward = forward;
+	}
+	
+	public int getId() {
+		return this.id;
 	}
 
     public void init() {
@@ -122,7 +136,7 @@ public class Tank extends Sprite implements Entity {
     
     public void fire()
     {       
-    	missiles.add(new Missile(x + width / 2, y + height / 2, r));
+    	missiles.add(new Missile(x + width / 2, y + height / 2, r, getId()));
     }
     
     public void plant() {

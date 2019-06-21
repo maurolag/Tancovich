@@ -24,7 +24,7 @@ public class Board extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
     private final int B_WIDTH = 800;
     private final int B_HEIGHT = 600;
-    private final int DELAY = 30;
+    private final int DELAY = 40;
     
     private BufferedImage background;
     private boolean ingame;
@@ -215,9 +215,7 @@ public class Board extends JPanel implements ActionListener {
             		
                     g.drawImage(mine.getImage(), mine.getX(), mine.getY(), this);
             	}
-            }
-           /* g.setColor(Color.WHITE);
-            g.drawString("R:" + tank.getR() + "   X:" + tank.getX() + "  Y:" + tank.getY(), 10, 30);*/
+            }           
     	}        
 
         for (Enemy enemy : enemies) {
@@ -236,15 +234,13 @@ public class Board extends JPanel implements ActionListener {
         }
 
         g.setColor(Color.WHITE);
-        g.drawString("Enemies left: " + enemies.size(), 5, 15);
-        
-        g.setColor(Color.WHITE);
+        g.drawString("Enemies left: " + enemies.size(), 5, 15);        
         g.drawString("R:" + tanks.get(0).getR() + "   X:" + tanks.get(0).getX() + "  Y:" + tanks.get(0).getY(), 10, 30);
     }
 
     private void drawGameOver(Graphics g) {
 
-        String msg = "Game Over, no servis para nada";
+        String msg = "Game Over";
         Font small = new Font("Helvetica", Font.BOLD, 34);
         FontMetrics fm = getFontMetrics(small);
 
@@ -353,7 +349,7 @@ public class Board extends JPanel implements ActionListener {
         List<Missile> missiles = tank.getMissiles();
 
         for (Missile missile : missiles) {
-
+        	
             Shape missileBound = missile.getShape();
 
             for (Enemy enemy : enemies) {
@@ -365,6 +361,18 @@ public class Board extends JPanel implements ActionListener {
                 	missile.setVisible(false);
                     enemy.setVisible(false);                    
                     enemy.destroyEnemy();
+                }
+            }
+            
+            for (Tank tankObjective : tanks) {
+
+                Shape tankeBound = tankObjective.getShape();
+
+                if (Sprite.testIntersection(missileBound, tankeBound)) {
+                	if((missile.getBounce() >= 1 && missile.getShooterId() == tank.getId()) || (missile.getShooterId() != tank.getId())) {
+                		tankObjective.setHealth(tankObjective.getHealth() - missile.getDamage());    
+                		missile.setVisible(false); 
+                	}                	           	                	                 
                 }
             }
         }
@@ -395,7 +403,7 @@ public class Board extends JPanel implements ActionListener {
 
             if (Sprite.testIntersection(boxBound,tankBound)) {
                 tank.setForward(0);
-                tank.setVisible(false);
+                //tank.setVisible(false);
             }
         }
     }
