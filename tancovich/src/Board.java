@@ -30,8 +30,25 @@ public class Board extends JPanel implements ActionListener {
     private boolean ingame;
     private List<Tank> tanks;
     private List<Enemy> enemies;
+    private List<BoxLevel> boxes;
+    private int lvl;
     private List<ProgressBar> bars;
     private Timer timer;
+    
+    private final int[][] boxesPositionLvlOne = {
+    		{292, 135, 54, 338},
+            {460, 133, 52, 340}
+    };
+    
+    private final int[][] boxesPositionLvlTwo = {
+    		{100, 40, 20, 50},
+            {140, 40, 20, 50}
+    };
+    
+    private final int[][] boxesPositionLvlThree = {
+    		{100, 40, 20, 50},
+            {140, 40, 20, 50}
+    };
     
     private final int[][] tankPositions = {
     		
@@ -52,6 +69,14 @@ public class Board extends JPanel implements ActionListener {
             {820, 128}, {490, 170}, {700, 30}
     };
 
+    public int getLvl() {
+    	return lvl;
+    }
+    
+    public void setLvl(int lvl) {
+    	this.lvl = lvl;
+    }
+    
     public Board() {
     	
         initBoard();
@@ -63,10 +88,15 @@ public class Board extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
         
         ingame = true;
+        
+        if(lvl == 0) {
+        	lvl = 1;
+        }
 
         initTanks();
         initEnemies();
         initBars();
+        initBoxes();
 
         timer = new Timer(DELAY, this);
         timer.start();
@@ -103,6 +133,33 @@ public class Board extends JPanel implements ActionListener {
             this.setVisible(true);
             
     	}
+    }
+    
+    public void initBoxes() {
+    	
+    	boxes = new ArrayList<>();
+    	
+    	switch (lvl) {
+		case 1:
+			for (int[] p : boxesPositionLvlOne) {
+				boxes.add(new BoxLevel(p[0], p[1], p[2], p[3]));
+	        }
+			break;
+		case 2:
+			for (int[] p : boxesPositionLvlTwo) {
+				boxes.add(new BoxLevel(p[0], p[1], p[2], p[3]));
+	        }
+			break;
+			
+		case 3:
+			for (int[] p : boxesPositionLvlThree) {
+				boxes.add(new BoxLevel(p[0], p[1], p[2], p[3]));
+	        }
+			break;
+
+		default:			
+			break;
+		}
     }
 
     @Override
@@ -159,6 +216,8 @@ public class Board extends JPanel implements ActionListener {
                     g.drawImage(mine.getImage(), mine.getX(), mine.getY(), this);
             	}
             }
+           /* g.setColor(Color.WHITE);
+            g.drawString("R:" + tank.getR() + "   X:" + tank.getX() + "  Y:" + tank.getY(), 10, 30);*/
     	}        
 
         for (Enemy enemy : enemies) {
@@ -171,15 +230,22 @@ public class Board extends JPanel implements ActionListener {
             	g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), this);
             }
         }
+        
+        for (BoxLevel boxLevel : boxes) {       	
+                g.drawRect(boxLevel.getX(), boxLevel.getY(), boxLevel.getWidth(), boxLevel.getHeight());
+        }
 
         g.setColor(Color.WHITE);
         g.drawString("Enemies left: " + enemies.size(), 5, 15);
+        
+        g.setColor(Color.WHITE);
+        g.drawString("R:" + tanks.get(0).getR() + "   X:" + tanks.get(0).getX() + "  Y:" + tanks.get(0).getY(), 10, 30);
     }
 
     private void drawGameOver(Graphics g) {
 
-        String msg = "Game Over";
-        Font small = new Font("Helvetica", Font.BOLD, 14);
+        String msg = "Game Over, no servis para nada";
+        Font small = new Font("Helvetica", Font.BOLD, 34);
         FontMetrics fm = getFontMetrics(small);
 
         g.setColor(Color.white);
@@ -270,13 +336,13 @@ public class Board extends JPanel implements ActionListener {
 
     public void checkCollisions(Tank tank) {
 
-        Shape r3 = tank.getShape();
+        Shape tankBound = tank.getShape();
 
         for (Enemy enemy : enemies) {
 
-        	Shape r2 = enemy.getShape();
+        	Shape enemyBound = enemy.getShape();
 
-            if (Sprite.testIntersection(r2,r3)) {
+            if (Sprite.testIntersection(enemyBound,tankBound)) {
 
                 tank.setVisible(false);
                 enemy.setVisible(false);
@@ -284,43 +350,53 @@ public class Board extends JPanel implements ActionListener {
             }
         }
 
-        List<Missile> ms = tank.getMissiles();
+        List<Missile> missiles = tank.getMissiles();
 
-        for (Missile m : ms) {
+        for (Missile missile : missiles) {
 
-            Shape r1 = m.getShape();
+            Shape missileBound = missile.getShape();
 
             for (Enemy enemy : enemies) {
 
-                Shape r2 = enemy.getShape();
+                Shape enemyBound = enemy.getShape();
 
-                if (Sprite.testIntersection(r1,r2)) {
+                if (Sprite.testIntersection(missileBound,enemyBound)) {
                 	
-                	m.setVisible(false);
+                	missile.setVisible(false);
                     enemy.setVisible(false);                    
                     enemy.destroyEnemy();
                 }
             }
         }
 	       
-        List<Mine> pm = tank.getMines();
+        List<Mine> minas = tank.getMines();
 	
 	        
-        for (Mine mp : pm) {
+        for (Mine mina : minas) {
 	
-        	Shape r1 = mp.getShape();
+        	Shape minaBound = mina.getShape();
 	
 	        for (Enemy enemy : enemies) {
 	
-	        	Shape r2 = enemy.getShape();
+	        	Shape enemyBound = enemy.getShape();
 	
-	        	if (Sprite.testIntersection(r1,r2)) {
+	        	if (Sprite.testIntersection(minaBound,enemyBound)) {
 	
-	        		mp.setVisible(false);
+	        		mina.setVisible(false);
 	        		enemy.setVisible(false);
 	        		enemy.destroyEnemy();
 	        	}
 	        }
+        }
+        
+        for (BoxLevel boxLevel : boxes) {
+
+        	Shape boxBound = boxLevel.getShape();
+
+            if (Sprite.testIntersection(boxBound,tankBound)) {
+                tank.setForward(0);
+                tank.setVisible(false);
+            }
         }
     }
     
