@@ -10,8 +10,18 @@ public class Tank extends Sprite implements Entity {
     private boolean fireControl = false;
     private boolean mineControl = false;
     private int health = 100;
+    private boolean alive = true;
+    private int explosionCounter = 0;
+    
+    private int[][] explosionTimer = 
+    	{
+    		{1, 6},
+    		{7, 12},
+    		{13, 18},
+    		{19, 24},
+    		{25, 30}
+    	};
     //private int impacts = 0;
-    //18/32
 
 	private final int[][] tankControls = {
     		    		
@@ -86,6 +96,26 @@ public class Tank extends Sprite implements Entity {
         {
         	loadImage("Resources/tankBlue.png", r);
         }
+        
+        if(this.isVisible())
+        {
+        	if(!isAlive())
+            {
+            	for(int i = 0; i < explosionTimer.length; i++)
+            	{
+            		if(isBetween(explosionCounter,explosionTimer[i][0],explosionTimer[i][1]))
+            		{
+            			loadImage("Resources/explosion"+(i+1)+".png");
+            			explosionCounter++;
+            		}
+            	}
+            	explosionCounter++;
+                if(explosionCounter >= 30)
+                {
+                	this.setVisible(false);
+                }            	
+            }
+        }     
     }
     
     public void checkControls()
@@ -142,4 +172,25 @@ public class Tank extends Sprite implements Entity {
     public void plant() {
     	mines.add(new Mine(x + width / 2, y + height /2));
     }    
+    
+    public void destroy() {
+        
+    	alive = false;
+    }
+
+    public void updateExplosion() {
+
+           
+    }
+    
+    public boolean isBetween(int x, int lower, int upper) {
+    	return lower <= x && x <= upper;
+    }
+
+	public boolean isAlive() {
+		if(getHealth() <= 0) {
+			destroy();
+		}
+		return alive;
+	}   
 }

@@ -29,14 +29,14 @@ public class Board extends JPanel implements ActionListener {
     private BufferedImage background;
     private boolean ingame;
     private List<Tank> tanks;
-    private List<Enemy> enemies;
+    //private List<Enemy> enemies;
     private List<BoxLevel> boxes;
     private int lvl;
     private List<ProgressBar> bars;
     private Timer timer;
     
     private final int[][] boxesPositionLvlOne = {
-    		{292, 135, 54, 338},
+    		{293, 136, 55, 338},
             {460, 133, 52, 340}
     };
     
@@ -56,7 +56,7 @@ public class Board extends JPanel implements ActionListener {
             {2, 760, 540}
     };
 
-    private final int[][] enemyPositions = {
+    /*private final int[][] enemyPositions = {
     		
             {2380, 29}, {2500, 59}, {1380, 89},
             {780, 109}, {580, 139}, {680, 239},
@@ -67,7 +67,7 @@ public class Board extends JPanel implements ActionListener {
             {900, 259}, {660, 50}, {540, 90},
             {810, 220}, {860, 20}, {740, 180},
             {820, 128}, {490, 170}, {700, 30}
-    };
+    };*/
 
     public int getLvl() {
     	return lvl;
@@ -94,7 +94,7 @@ public class Board extends JPanel implements ActionListener {
         }
 
         initTanks();
-        initEnemies();
+        //initEnemies();
         initBars();
         initBoxes();
 
@@ -111,14 +111,14 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
-    public void initEnemies() {
+   /* public void initEnemies() {
 
         enemies = new ArrayList<>();
 
         for (int[] p : enemyPositions) {
             enemies.add(new Enemy(p[0], p[1]));
         }
-    }
+    }*/
     
     public void initBars() {
     	
@@ -218,7 +218,7 @@ public class Board extends JPanel implements ActionListener {
             }           
     	}        
 
-        for (Enemy enemy : enemies) {
+        /*for (Enemy enemy : enemies) {
             if (enemy.isVisible()) {
             	
                 g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), this);
@@ -227,14 +227,14 @@ public class Board extends JPanel implements ActionListener {
             	
             	g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), this);
             }
-        }
+        }*/
         
         for (BoxLevel boxLevel : boxes) {       	
                 g.drawRect(boxLevel.getX(), boxLevel.getY(), boxLevel.getWidth(), boxLevel.getHeight());
         }
 
         g.setColor(Color.WHITE);
-        g.drawString("Enemies left: " + enemies.size(), 5, 15);        
+        //g.drawString("Enemies left: " + enemies.size(), 5, 15);        
         g.drawString("R:" + tanks.get(0).getR() + "   X:" + tanks.get(0).getX() + "  Y:" + tanks.get(0).getY(), 10, 30);
     }
 
@@ -260,7 +260,7 @@ public class Board extends JPanel implements ActionListener {
 	        updateMines(tank);
 	        checkCollisions(tank);
     	}
-        updateEnemies();
+        //updateEnemies();
         repaint();
     }
 
@@ -310,7 +310,7 @@ public class Board extends JPanel implements ActionListener {
 		}
 	}
     
-    private void updateEnemies() {
+    /*private void updateEnemies() {
 
         if (enemies.isEmpty()) {
 
@@ -328,13 +328,13 @@ public class Board extends JPanel implements ActionListener {
                 enemies.remove(i);
             }
         }
-    }
+    }*/
 
     public void checkCollisions(Tank tank) {
 
         Shape tankBound = tank.getShape();
 
-        for (Enemy enemy : enemies) {
+        /*for (Enemy enemy : enemies) {
 
         	Shape enemyBound = enemy.getShape();
 
@@ -344,7 +344,7 @@ public class Board extends JPanel implements ActionListener {
                 enemy.setVisible(false);
                 ingame = false;
             }
-        }
+        }*/
 
         List<Missile> missiles = tank.getMissiles();
 
@@ -352,7 +352,7 @@ public class Board extends JPanel implements ActionListener {
         	
             Shape missileBound = missile.getShape();
 
-            for (Enemy enemy : enemies) {
+            /*for (Enemy enemy : enemies) {
 
                 Shape enemyBound = enemy.getShape();
 
@@ -361,7 +361,7 @@ public class Board extends JPanel implements ActionListener {
                 	missile.setVisible(false);                   
                     enemy.destroyEnemy();
                 }
-            }
+            }*/
             
             for (Tank tankObjective : tanks) {
 
@@ -388,7 +388,7 @@ public class Board extends JPanel implements ActionListener {
 	
         	Shape minaBound = mina.getShape();
 	
-	        for (Enemy enemy : enemies) {
+	        /*for (Enemy enemy : enemies) {
 	
 	        	Shape enemyBound = enemy.getShape();
 	
@@ -398,7 +398,7 @@ public class Board extends JPanel implements ActionListener {
 	        		enemy.setVisible(false);
 	        		enemy.destroyEnemy();
 	        	}
-	        }
+	        }*/
         }
         
         for (BoxLevel boxLevel : boxes) {
