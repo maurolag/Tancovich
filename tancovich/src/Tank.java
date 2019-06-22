@@ -139,11 +139,11 @@ public class Tank extends Sprite implements Entity {
     	}
     	else
     	{
-        	if (Keyboard.keydown[tankControls[id-1][1]]) //Velocidad
+        	if (Keyboard.keydown[tankControls[id-1][1]]) //Marcha adelante
         	{
         		forward = 5;
         	}
-        	if (Keyboard.keydown[tankControls[id-1][3]]) //Freno
+        	if (Keyboard.keydown[tankControls[id-1][3]]) //Marcha atras
         	{
         		forward = -5;
         	}
