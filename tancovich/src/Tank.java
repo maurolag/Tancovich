@@ -12,6 +12,8 @@ public class Tank extends Sprite implements Entity {
     private int health = 100;
     private boolean alive = true;
     private int explosionCounter = 0;
+    //private int impacts = 0;
+    
     
     private int[][] explosionTimer = 
     	{
@@ -21,7 +23,7 @@ public class Tank extends Sprite implements Entity {
     		{19, 24},
     		{25, 30}
     	};
-    //private int impacts = 0;
+    
 
 	private final int[][] tankControls = {
     		    		
@@ -176,11 +178,6 @@ public class Tank extends Sprite implements Entity {
     public void destroy() {
         
     	alive = false;
-    }
-
-    public void updateExplosion() {
-
-           
     }
     
     public boolean isBetween(int x, int lower, int upper) {
