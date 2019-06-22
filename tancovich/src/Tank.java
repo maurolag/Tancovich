@@ -141,5 +141,5 @@ public class Tank extends Sprite implements Entity {
     
     public void plant() {
     	mines.add(new Mine(x + width / 2, y + height /2));
-    }
+    }    
 }

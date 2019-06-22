@@ -41,11 +41,11 @@ public class ProgressBar extends JProgressBar {
     private Color progressColor;
 
     private String maxPercentString;
-    private String tankName;
+    private int tankId;
 
-    public ProgressBar(String tankName) {
+    public ProgressBar(int tankId) {
         progressColor = PREFERRED_PROGRESS_COLOR;
-        this.tankName = tankName;
+        setTankId(tankId);
     }
 
     public void updateGraphics() {
@@ -97,10 +97,10 @@ public class ProgressBar extends JProgressBar {
 
                 g2d.drawString(percent, w - stringW, stringH);
             } else {
-                stringW = fm.stringWidth(tankName);
+                stringW = fm.stringWidth("Jugador" + tankId);
                 stringH = ((h - fm.getHeight()) / 2) + fm.getAscent();
 
-                g2d.drawString(tankName, w - stringW, stringH);
+                g2d.drawString("Jugador" + tankId, w - stringW, stringH);
             }
             w -= (stringW + PREFERRED_PERCENT_STRING_MARGIN_WIDTH);            
         }
@@ -200,4 +200,12 @@ public class ProgressBar extends JProgressBar {
     public void setProgressColor(Color progressColor) {
         this.progressColor = progressColor;
     }
+
+	public int getTankId() {
+		return tankId;
+	}
+
+	public void setTankId(int tankId) {
+		this.tankId = tankId;
+	}
 }

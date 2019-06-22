@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class Missile extends Sprite implements Entity {
 
     private final int BOARD_WIDTH = 800;

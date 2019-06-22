@@ -1,14 +1,20 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.Image;
-
 public class Enemy extends Sprite implements Entity {
 
     private final int INITIAL_X = 400;
+    private boolean alive = true;
+    private int explosionCounter = 0;
+    
+    private int[][] explosionTimer = 
+    	{
+    		{1, 6},
+    		{7, 12},
+    		{13, 18},
+    		{19, 24},
+    		{25, 30}
+    	};
 
     public Enemy(int x, int y) {
         super(x, y);
-
         init();
     }
 
@@ -20,32 +26,7 @@ public class Enemy extends Sprite implements Entity {
     
     public void destroyEnemy() {
         
-    	
-		loadImage("Resources/explosion2.png");
-		getImageDimensions();
-    	
-    	List<Image> explosion = new ArrayList<Image>();
-
-    		loadImage("Resources/explosion1.png");
-    		explosion.add(getImage());
-    		getImageDimensions();
-
-    		loadImage("Resources/explosion2.png");
-    		explosion.add(getImage());
-    		getImageDimensions();
-
-    		loadImage("Resources/explosion3.png");
-    		explosion.add(getImage());
-    		getImageDimensions();
-
-    		loadImage("Resources/explosion4.png");
-    		explosion.add(getImage());
-    		getImageDimensions();
-
-    		loadImage("Resources/explosion5.png");
-    		explosion.add(getImage());
-    		getImageDimensions();
-
+    	alive = false;
     }
 
     public void update() {
@@ -53,7 +34,37 @@ public class Enemy extends Sprite implements Entity {
         if (x < 0) {
             x = INITIAL_X;
         }
-
-        x -= 1;
+        
+        if(this.isVisible())
+        {
+        	if(isAlive())
+            {
+            	x -= 1;
+            }
+            else
+            {
+            	for(int i = 0; i < explosionTimer.length; i++)
+            	{
+            		if(isBetween(explosionCounter,explosionTimer[i][0],explosionTimer[i][1]))
+            		{
+            			loadImage("Resources/explosion"+(i+1)+".png");
+            			explosionCounter++;
+            		}
+            	}
+            	explosionCounter++;
+                if(explosionCounter >= 30)
+                {
+                	this.setVisible(false);
+                }            	
+            }
+        }        
     }
+    
+    public boolean isBetween(int x, int lower, int upper) {
+    	return lower <= x && x <= upper;
+    }
+
+	public boolean isAlive() {
+		return alive;
+	}   
 }

@@ -126,12 +126,12 @@ public class Board extends JPanel implements ActionListener {
     	
     	for (Tank t : tanks) {
     		
-    		ProgressBar p = new ProgressBar("Jugador");
+    		ProgressBar p = new ProgressBar(t.getId());
             p.setValue(t.getHealth());
             p.setBounds(15, 15, 300, 15);
+            p.setVisible(true);
+            bars.add(p);
             this.add(p);
-            this.setVisible(true);
-            
     	}
     }
     
@@ -358,8 +358,7 @@ public class Board extends JPanel implements ActionListener {
 
                 if (Sprite.testIntersection(missileBound,enemyBound)) {
                 	
-                	missile.setVisible(false);
-                    enemy.setVisible(false);                    
+                	missile.setVisible(false);                   
                     enemy.destroyEnemy();
                 }
             }
@@ -369,8 +368,13 @@ public class Board extends JPanel implements ActionListener {
                 Shape tankeBound = tankObjective.getShape();
 
                 if (Sprite.testIntersection(missileBound, tankeBound)) {
-                	if((missile.getBounce() >= 1 && missile.getShooterId() == tank.getId()) || (missile.getShooterId() != tank.getId())) {
-                		tankObjective.setHealth(tankObjective.getHealth() - missile.getDamage());    
+                	if((missile.getBounce() >= 1 && missile.getShooterId() == tank.getId()) || (missile.getShooterId() != tankObjective.getId())) {
+                		tankObjective.setHealth(tankObjective.getHealth() - missile.getDamage());   
+                		for (int i = 0; i < bars.size(); i++) {
+                			if(bars.get(i).getTankId() == tankObjective.getId()) {
+                				bars.get(i).setValue(tankObjective.getHealth());
+                			}
+                		}
                 		missile.setVisible(false); 
                 	}                	           	                	                 
                 }
