@@ -17,11 +17,11 @@ public class Tank extends Sprite implements Entity {
     
     private int[][] explosionTimer = 
     	{
-    		{1, 6},
-    		{7, 12},
-    		{13, 18},
-    		{19, 24},
-    		{25, 30}
+    		{1, 5},
+    		{6, 11},
+    		{12, 17},
+    		{18, 23},
+    		{24, 29}
     	};
     
 

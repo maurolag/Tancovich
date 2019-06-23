@@ -2,7 +2,7 @@ public class Missile extends Sprite implements Entity {
 
     private final int BOARD_WIDTH = 800;
     private final int BOARD_HEIGHT = 600;
-    private final int MISSILE_SPEED = 6;
+    private final int MISSILE_SPEED = 10;
     private int bounce = 0;
     private int shooterId;
     private int damage;
@@ -15,8 +15,13 @@ public class Missile extends Sprite implements Entity {
     }
 
     public void init() {
-
-        loadImage("Resources/bulletDark2.png", 180+r);
+    	
+    	if(shooterId == 1) {
+    		loadImage("Resources/bulletRed.png", 180+r);
+    	}else {
+    		loadImage("Resources/bulletBlue.png", 180+r);
+    	}
+        
     }
 
     public void update() {
@@ -41,7 +46,11 @@ public class Missile extends Sprite implements Entity {
         	this.visible = false;
         }
         
-        loadImage("Resources/bulletDark2.png", 180+r);
+        if(shooterId == 1) {
+    		loadImage("Resources/bulletRed.png", 180+r);
+    	}else {
+    		loadImage("Resources/bulletBlue.png", 180+r);
+    	}
     }
 
 	public int getBounce() {

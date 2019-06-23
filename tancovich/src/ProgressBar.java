@@ -95,13 +95,8 @@ public class ProgressBar extends JProgressBar {
                 stringW = fm.stringWidth(maxPercentString);
                 stringH = ((h - fm.getHeight()) / 2) + fm.getAscent();
 
-                g2d.drawString(percent, w - stringW, stringH);
-            } else {
-                stringW = fm.stringWidth("Jugador" + tankId);
-                stringH = ((h - fm.getHeight()) / 2) + fm.getAscent();
-
-                g2d.drawString("Jugador" + tankId, w - stringW, stringH);
-            }
+                g2d.drawString(percent, w - stringW, stringH);                            
+            } 
             w -= (stringW + PREFERRED_PERCENT_STRING_MARGIN_WIDTH);            
         }
 

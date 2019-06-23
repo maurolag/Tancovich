@@ -53,7 +53,7 @@ public class Board extends JPanel implements ActionListener {
     private final int[][] tankPositions = {
     		
             {1, 40, 60},
-            {2, 760, 540}
+            {2, 720, 480}
     };
 
     /*private final int[][] enemyPositions = {
@@ -234,8 +234,13 @@ public class Board extends JPanel implements ActionListener {
         }
 
         g.setColor(Color.WHITE);
-        //g.drawString("Enemies left: " + enemies.size(), 5, 15);        
         g.drawString("R:" + tanks.get(0).getR() + "   X:" + tanks.get(0).getX() + "  Y:" + tanks.get(0).getY(), 10, 30);
+        //g.drawString("Enemies left: " + enemies.size(), 5, 15);  
+        Font small = new Font("Helvetica", Font.BOLD, 15);
+        g.setFont(small);
+        g.drawString("Player 1:", 180, 16);
+		g.drawString("Player 2:", 550, 16);
+        
     }
 
     private void drawGameOver(Graphics g) {
