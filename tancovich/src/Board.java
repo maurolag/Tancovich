@@ -414,6 +414,14 @@ public class Board extends JPanel implements ActionListener {
                 tank.setForward(0);
                 //tank.setVisible(false);
             }
+	 for (Missile missile : missiles) {
+           	
+            	Shape missileBound = missile.getShape();
+            	
+            	if(Sprite.testIntersection(boxBound, missileBound)) {
+            		missile.boxRebound(boxLevel.getX(), boxLevel.getY(), boxLevel.getHeight(), boxLevel.getWidth());
+            	}
+            }
         }
     }
     

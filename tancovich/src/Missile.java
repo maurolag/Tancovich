@@ -52,6 +52,17 @@ public class Missile extends Sprite implements Entity {
     		loadImage("Resources/bulletBlue.png", 180+r);
     	}
     }
+    public void boxRebound (int xBox, int yBox, int heightBox, int widthBox) {
+    	
+    	if (x > xBox - 7 && x < xBox + widthBox - 5 && y < yBox  || x > xBox - 10 && x < xBox + widthBox -5  && y < yBox + heightBox) {
+    		r = 180 - r;
+    		bounce++;
+	}        	
+    	else{
+    		r = -r;
+    		bounce++;
+    	}
+    }
 
 	public int getBounce() {
 		return bounce;
