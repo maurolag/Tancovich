@@ -1,17 +1,6 @@
 public class Enemy extends Sprite implements Entity {
 
     private final int INITIAL_X = 400;
-    private boolean alive = true;
-    private int explosionCounter = 0;
-    
-    private int[][] explosionTimer = 
-    	{
-    		{1, 6},
-    		{7, 12},
-    		{13, 18},
-    		{19, 24},
-    		{25, 30}
-    	};
 
     public Enemy(int x, int y) {
         super(x, y);
@@ -35,36 +24,9 @@ public class Enemy extends Sprite implements Entity {
             x = INITIAL_X;
         }
         
-        if(this.isVisible())
+        if(isVisible() && isAlive())
         {
-        	if(isAlive())
-            {
-            	x -= 1;
-            }
-            else
-            {
-            	for(int i = 0; i < explosionTimer.length; i++)
-            	{
-            		if(isBetween(explosionCounter,explosionTimer[i][0],explosionTimer[i][1]))
-            		{
-            			loadImage("Resources/explosion"+(i+1)+".png");
-            			explosionCounter++;
-            		}
-            	}
-            	explosionCounter++;
-                if(explosionCounter >= 30)
-                {
-                	this.setVisible(false);
-                }            	
-            }
+        	x -= 1;
         }        
-    }
-    
-    public boolean isBetween(int x, int lower, int upper) {
-    	return lower <= x && x <= upper;
-    }
-
-	public boolean isAlive() {
-		return alive;
-	}   
+    } 
 }

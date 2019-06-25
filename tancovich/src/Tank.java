@@ -4,26 +4,13 @@ import java.util.List;
 public class Tank extends Sprite implements Entity {
 
 	private int id;
-    private int forward;    
+    private int forward;
+    private int health = 100;
+    private int impacts = 0;
     private List<Missile> missiles;
     private List<Mine> mines;
     private boolean fireControl = false;
-    private boolean mineControl = false;
-    private int health = 100;
-    private boolean alive = true;
-    private int explosionCounter = 0;
-    //private int impacts = 0;
-    
-    
-    private int[][] explosionTimer = 
-    	{
-    		{1, 5},
-    		{6, 11},
-    		{12, 17},
-    		{18, 23},
-    		{24, 29}
-    	};
-    
+    private boolean mineControl = false;    
 
 	private final int[][] tankControls = {
     		    		
@@ -40,23 +27,11 @@ public class Tank extends Sprite implements Entity {
         init();
     }
     
-    public List<Missile> getMissiles() {
-        return missiles;
-    }
-    
-    public List<Mine> getMines() {
-        return mines;
-    }
-    
-    public int getHealth() {
-		return health;
+    public int getId() {
+		return this.id;
 	}
-
-	public void setHealth(int health) {
-		this.health = health;
-	}
-	
-	public int getForward() {
+    
+    public int getForward() {
 		return forward;		
 	}
 	
@@ -64,9 +39,29 @@ public class Tank extends Sprite implements Entity {
 		this.forward = forward;
 	}
 	
-	public int getId() {
-		return this.id;
+	public int getHealth() {
+		return health;
 	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+    
+    public int getImpacts() {
+		return impacts;
+	}
+
+	public void setImpacts(int impacts) {
+		this.impacts = impacts;
+	}
+
+	public List<Missile> getMissiles() {
+        return missiles;
+    }
+    
+    public List<Mine> getMines() {
+        return mines;
+    }
 
     public void init() {
 
@@ -84,54 +79,45 @@ public class Tank extends Sprite implements Entity {
     }
     
     public void update() {
-    	
-    	checkControls();
-    	
-    	x = x + (int)(Math.sin(Math.toRadians(-r)) * forward);
-        y = y + (int)(Math.cos(Math.toRadians(-r)) * forward);
         
-        if(id == 1)
+        if(isVisible())
         {
-        	loadImage("Resources/tankRed.png", r);
-        }
-        else if(id == 2)
-        {
-        	loadImage("Resources/tankBlue.png", r);
-        }
-        
-        if(this.isVisible())
-        {
-        	if(!isAlive())
-            {
-            	for(int i = 0; i < explosionTimer.length; i++)
-            	{
-            		if(isBetween(explosionCounter,explosionTimer[i][0],explosionTimer[i][1]))
-            		{
-            			loadImage("Resources/explosion"+(i+1)+".png");
-            			explosionCounter++;
-            		}
-            	}
-            	explosionCounter++;
-                if(explosionCounter >= 30)
+        	if(this.getHealth() > 0)
+        	{
+        		checkControls();
+            	
+            	x = x + (int)(Math.sin(Math.toRadians(-r)) * forward);
+                y = y + (int)(Math.cos(Math.toRadians(-r)) * forward);
+        		
+        		if(id == 1)
                 {
-                	this.setVisible(false);
-                }            	
-            }
-        }     
+                	loadImage("Resources/tankRed.png", r);
+                }
+                else if(id == 2)
+                {
+                	loadImage("Resources/tankBlue.png", r);
+                }
+        	}
+        	else
+        	{
+        		if(this.isAlive()) this.setAlive(false);
+        		explodeSprite(30);
+        	}
+        }        
     }
     
     public void checkControls()
     {
     	if (Keyboard.keydown[tankControls[id-1][0]]) //Izquierda
     	{
-    		if(forward >= 0) r -= 5;
-    		else r += 5;
+    		if(forward >= 0) setR(getR()-5);
+    		else setR(getR()+5);
     		
     	}
     	if (Keyboard.keydown[tankControls[id-1][2]]) //Derecha
     	{
-    		if(forward >= 0) r += 5;
-    		else r -= 5;
+    		if(forward >= 0) setR(getR()+5);
+    		else setR(getR()-5);
     	}
     	if(!Keyboard.keydown[tankControls[id-1][3]] && !Keyboard.keydown[tankControls[id-1][1]])
     	{
@@ -173,21 +159,5 @@ public class Tank extends Sprite implements Entity {
     
     public void plant() {
     	mines.add(new Mine(x + width / 2, y + height /2));
-    }    
-    
-    public void destroy() {
-        
-    	alive = false;
     }
-    
-    public boolean isBetween(int x, int lower, int upper) {
-    	return lower <= x && x <= upper;
-    }
-
-	public boolean isAlive() {
-		if(getHealth() <= 0) {
-			destroy();
-		}
-		return alive;
-	}   
 }
