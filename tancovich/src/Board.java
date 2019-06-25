@@ -30,8 +30,8 @@ public class Board extends JPanel implements ActionListener {
     private boolean ingame;
     private List<Tank> tanks;
     //private List<Enemy> enemies;
-    private List<BoxLevel> boxes;
-    private int lvl;
+    private List<Box> boxes;
+    private int lvl = 0;
     private List<ProgressBar> bars;
     private Timer timer;
     
@@ -142,18 +142,18 @@ public class Board extends JPanel implements ActionListener {
     	switch (lvl) {
 		case 1:
 			for (int[] p : boxesPositionLvlOne) {
-				boxes.add(new BoxLevel(p[0], p[1], p[2], p[3]));
+				boxes.add(new Box(p[0], p[1], p[2], p[3]));
 	        }
 			break;
 		case 2:
 			for (int[] p : boxesPositionLvlTwo) {
-				boxes.add(new BoxLevel(p[0], p[1], p[2], p[3]));
+				boxes.add(new Box(p[0], p[1], p[2], p[3]));
 	        }
 			break;
 			
 		case 3:
 			for (int[] p : boxesPositionLvlThree) {
-				boxes.add(new BoxLevel(p[0], p[1], p[2], p[3]));
+				boxes.add(new Box(p[0], p[1], p[2], p[3]));
 	        }
 			break;
 
@@ -229,8 +229,8 @@ public class Board extends JPanel implements ActionListener {
             }
         }*/
         
-        for (BoxLevel boxLevel : boxes) {       	
-                g.drawRect(boxLevel.getX(), boxLevel.getY(), boxLevel.getWidth(), boxLevel.getHeight());
+        for (Box box : boxes) {       	
+                g.drawRect(box.getX(), box.getY(), box.getWidth(), box.getHeight());
         }
 
         g.setColor(Color.WHITE);
@@ -386,14 +386,14 @@ public class Board extends JPanel implements ActionListener {
             }
         }
 	       
-        List<Mine> minas = tank.getMines();
+        /*List<Mine> minas = tank.getMines();
 	
 	        
         for (Mine mina : minas) {
 	
         	Shape minaBound = mina.getShape();
 	
-	        /*for (Enemy enemy : enemies) {
+	        for (Enemy enemy : enemies) {
 	
 	        	Shape enemyBound = enemy.getShape();
 	
@@ -403,26 +403,57 @@ public class Board extends JPanel implements ActionListener {
 	        		enemy.setVisible(false);
 	        		enemy.destroyEnemy();
 	        	}
-	        }*/
-        }
+	        }
+        }*/
         
-        for (BoxLevel boxLevel : boxes) {
+        for (Box box : boxes) {
 
-        	Shape boxBound = boxLevel.getShape();
+        	Shape boxBound = box.getShape();
 
             if (Sprite.testIntersection(boxBound,tankBound)) {
                 tank.setForward(0);
                 //tank.setVisible(false);
             }
-	 for (Missile missile : missiles) {
+	 
+            for (Missile missile : missiles) {
            	
             	Shape missileBound = missile.getShape();
             	
             	if(Sprite.testIntersection(boxBound, missileBound)) {
-            		missile.boxRebound(boxLevel.getX(), boxLevel.getY(), boxLevel.getHeight(), boxLevel.getWidth());
+            		
+            		//Superior
+            		if(missile.getY() < box.getY() && isBetween(missile.getX(),box.getX(),box.getX()+box.getWidth()-missile.getWidth()))
+            		{
+            			missile.setR(180-missile.getR());
+            		}
+            		
+            		//Inferior
+            		else if(missile.getY() > box.getY() + box.getHeight() - missile.getHeight() && isBetween(missile.getX(),box.getX(),box.getX()+box.getWidth()-missile.getWidth())) 
+            		{
+            			missile.setR(180-missile.getR());
+            		}
+            		
+            		//Izquierdo
+            		if(missile.getX() < box.getX() && isBetween(missile.getY(),box.getY(),box.getY()+box.getHeight()-missile.getHeight()))
+            		{
+            			missile.setR(missile.getR()*-1);
+            		}
+            		
+            		//Derecho
+            		else if(missile.getX() > box.getX() + box.getWidth() - missile.getWidth() && isBetween(missile.getY(),box.getY(),box.getY()+box.getHeight()-missile.getHeight()))
+            		{
+            			missile.setR(missile.getR()*-1);
+            		}
+            		
+            		//Agrego rebote
+            		missile.setBounce(missile.getBounce()+1);
             	}
             }
         }
+    }
+    
+    public boolean isBetween(int x, int lower, int upper) {
+    	return lower <= x && x <= upper;
     }
     
     @Override

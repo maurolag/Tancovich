@@ -10,28 +10,46 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 public class Sprite {
-
+	
+	protected final int BOARD_WIDTH = 800;
+    protected final int BOARD_HEIGHT = 600;
     protected int x;
     protected int y;
     protected int r;
     protected int width;
-    protected int height;
-    protected boolean visible;
+    protected int height;    
     protected BufferedImage image;
+    protected boolean visible;
+    protected boolean alive;
+    protected int explosionCounter;
 
     public Sprite(int x, int y) {
 
-        this.x = x;
-        this.y = y;
-        visible = true;
+    	setX(x);
+    	setY(y);
+    	setR(0);
+    	setVisible(true);
+    	setAlive(true);
+    }
+    
+    public Sprite(int x, int y, int width, int height) {
+
+    	setX(x);
+    	setY(y);
+    	setR(0);
+    	setWidth(width);
+    	setHeight(height);
+    	setVisible(true);
+    	setAlive(true);
     }
     
     public Sprite(int x, int y, int r) {
 
-        this.x = x;
-        this.y = y;
-        this.r = r;
-        visible = true;
+    	setX(x);
+    	setY(y);
+        setR(r);
+        setVisible(true);
+    	setAlive(true);
     }
     
     protected void loadImage(String imageName) {
@@ -81,16 +99,56 @@ public class Sprite {
     public int getX() {
         return x;
     }
+    
+    public void setX(int x)
+    {
+    	this.x = x;
+    }
 
     public int getY() {
         return y;
     }
     
+    public void setY(int y)
+    {
+    	this.y = y;
+    }
+    
     public int getR() {
         return r;
     }
+    
+    public void setR(int r)
+    {
+    	int normalized = normalizeAngle(r);
+    	this.r = normalized;
+    }
+    
+    private int normalizeAngle(int angle)
+    {
+        int newAngle = angle % 360;
+        newAngle = (newAngle + 360) % 360;  
+        if (newAngle > 180) newAngle -= 360;  
+        return newAngle;
+    }
 
-    public boolean isVisible() {
+    public int getWidth() {
+		return width;
+	}
+    
+    public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}	
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public boolean isVisible() {
         return visible;
     }
 
@@ -98,7 +156,15 @@ public class Sprite {
         this.visible = visible;
     }
 
-    public Shape getShape() {
+    public boolean isAlive() {
+		return alive;
+	}
+
+	public void setAlive(boolean alive) {
+		this.alive = alive;
+	}
+
+	public Shape getShape() {
     	Shape bounds = new Rectangle(x, y, width, height);
         return bounds;
     }
@@ -107,5 +173,39 @@ public class Sprite {
     	Area areaA = new Area(shapeA);
     	areaA.intersect(new Area(shapeB));
     	return !areaA.isEmpty();
+    }
+    
+    //Carga la imagen correspondiente al momento de la explosion. 
+    //Funciona mejor con explosionFinish multiplos de 5 porque hay 5 imagenes de la explosion.
+    public void explodeSprite(int explosionFinish)
+    {
+    	if(explosionCounter < explosionFinish)
+    	{
+    		if(isVisible() && !isAlive())
+            {
+    			boolean found = false;
+    			for(int i = 0; i < 5 && !found; i++)
+    			{
+    				if(explosionCounter <= (i+1)*(explosionFinish/5))
+    				{
+    					loadImage("Resources/explosion"+(i+1)+".png");
+    					found = true;
+    				}
+    			}
+            }
+    		//Fix explosiones fuera de imagen
+    		if(x > BOARD_WIDTH - getWidth()) x -= 1;
+    		if(y > BOARD_HEIGHT - getHeight()) y -= 1;
+    		explosionCounter++;
+    	}
+    	else
+    	{
+    		this.setVisible(false);
+    		explosionCounter = 0;
+    	}
+    }
+    
+    public boolean isBetween(int x, int lower, int upper) {
+    	return lower <= x && x <= upper;
     }
 }

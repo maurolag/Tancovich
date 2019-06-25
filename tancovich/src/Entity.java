@@ -1,5 +1,5 @@
 
-public interface Entity {
+public interface Entity {	
 	void init();
 	void update();
 }
