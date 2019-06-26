@@ -1,5 +1,5 @@
 /Board.class
-/BoxLevel.class
+/Box.class
 /Enemy.class
 /Entity.class
 /Game.class
@@ -10,4 +10,3 @@
 /Resources/
 /Sprite.class
 /Tank.class
-/Box.class

@@ -46,7 +46,7 @@ public class Missile extends Sprite implements Entity {
 		        }
 	    	}
 	        
-	        if(bounce < 3)
+	        if(bounce < 4)
         	{
 	        	if(shooterId == 1) 
 	        	{
