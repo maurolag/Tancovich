@@ -374,6 +374,7 @@ public class Board extends JPanel implements ActionListener {
 
                 if (Sprite.testIntersection(missileBound, tankeBound)) {
                 	if((missile.getBounce() >= 1 && missile.getShooterId() == tank.getId()) || (missile.getShooterId() != tankObjective.getId())) {
+                		if(tankObjective.visible) {
                 		tankObjective.setHealth(tankObjective.getHealth() - missile.getDamage());   
                 		for (int i = 0; i < bars.size(); i++) {
                 			if(bars.get(i).getTankId() == tankObjective.getId()) {
@@ -381,6 +382,7 @@ public class Board extends JPanel implements ActionListener {
                 			}
                 		}
                 		missile.setVisible(false); 
+                		}
                 	}                	           	                	                 
                 }
             }
