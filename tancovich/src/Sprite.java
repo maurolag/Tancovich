@@ -175,6 +175,13 @@ public class Sprite {
     	return !areaA.isEmpty();
     }
     
+    public static boolean testIntersection(Shape shapeA, int x, int y, int width, int height) {
+    	Shape shapeB = new Rectangle(x, y, width, height);
+    	Area areaA = new Area(shapeA);
+    	areaA.intersect(new Area(shapeB));
+    	return !areaA.isEmpty();
+    }
+    
     //Carga la imagen correspondiente al momento de la explosion. 
     //Funciona mejor con explosionFinish multiplos de 5 porque hay 5 imagenes de la explosion.
     public void explodeSprite(int explosionFinish)

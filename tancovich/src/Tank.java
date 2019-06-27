@@ -9,6 +9,8 @@ public class Tank extends Sprite implements Entity {
     private int impacts = 0;
     private List<Missile> missiles;
     private List<Mine> mines;
+    private boolean canForward = true;
+    private boolean canBack = true;
     private boolean fireControl = false;
     private boolean mineControl = false;    
 
@@ -39,6 +41,22 @@ public class Tank extends Sprite implements Entity {
 		this.forward = forward;
 	}
 	
+	public boolean isCanForward() {
+		return canForward;
+	}
+
+	public boolean isCanBack() {
+		return canBack;
+	}
+
+	public void setCanForward(boolean canForward) {
+		this.canForward = canForward;
+	}
+
+	public void setCanBack(boolean canBack) {
+		this.canBack = canBack;
+	}
+
 	public int getHealth() {
 		return health;
 	}
@@ -86,8 +104,8 @@ public class Tank extends Sprite implements Entity {
         	{
         		checkControls();
             	
-            	x = x + (int)(Math.sin(Math.toRadians(-r)) * forward);
-                y = y + (int)(Math.cos(Math.toRadians(-r)) * forward);
+            	x = x + (int)(Math.sin(Math.toRadians(-r)) * getForward());
+                y = y + (int)(Math.cos(Math.toRadians(-r)) * getForward());
         		
         		if(id == 1)
                 {
@@ -121,17 +139,17 @@ public class Tank extends Sprite implements Entity {
     	}
     	if(!Keyboard.keydown[tankControls[id-1][3]] && !Keyboard.keydown[tankControls[id-1][1]])
     	{
-    		forward = 0;
+    		setForward(0);
     	}
     	else
     	{
-        	if (Keyboard.keydown[tankControls[id-1][1]]) //Marcha adelante
+        	if (isCanForward() && Keyboard.keydown[tankControls[id-1][1]]) //Marcha adelante
         	{
-        		forward = 5;
+        		setForward(5);
         	}
-        	if (Keyboard.keydown[tankControls[id-1][3]]) //Marcha atras
+        	if (isCanBack() && Keyboard.keydown[tankControls[id-1][3]]) //Marcha atras
         	{
-        		forward = -5;
+        		setForward(-5);
         	}
     	}    	
     	if (Keyboard.keydown[tankControls[id-1][4]] && !fireControl) {
@@ -159,5 +177,13 @@ public class Tank extends Sprite implements Entity {
     
     public void plant() {
     	mines.add(new Mine(x + width / 2, y + height /2));
+    }
+    
+    public ArrayList<Integer> calculateNextPosition(boolean forward)
+    {
+    	ArrayList<Integer> nextPos = new ArrayList<Integer>();
+    	nextPos.add(getX() + (int)(Math.sin(Math.toRadians(-getR())) * (forward ? 5 : -5)));
+    	nextPos.add(getY() + (int)(Math.cos(Math.toRadians(-getR())) * (forward ? 5 : -5)));
+    	return nextPos;
     }
 }
