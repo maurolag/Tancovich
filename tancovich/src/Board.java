@@ -337,7 +337,7 @@ public class Board extends JPanel implements ActionListener {
 
     public void checkCollisions(Tank tank) {
 
-        Shape tankBound = tank.getShape();
+    	Shape tankBound = tank.getShape();
 
         /*for (Enemy enemy : enemies) {
 
@@ -411,11 +411,31 @@ public class Board extends JPanel implements ActionListener {
         for (Box box : boxes) {
 
         	Shape boxBound = box.getShape();
-
-            if (Sprite.testIntersection(boxBound,tankBound)) {
-                tank.setForward(0);
-                //tank.setVisible(false);
-            }
+        	
+        	if (Sprite.testIntersection(boxBound,tankBound))
+        	{
+        		ArrayList<Integer> nextPos = new ArrayList<Integer>();
+	    		if(tank.getForward() >= 0)
+	    		{
+	    			nextPos = tank.calculateNextPosition(true);
+	    			if (Sprite.testIntersection(boxBound,nextPos.get(0),nextPos.get(1),tank.getWidth()-4,tank.getHeight()-4))
+	    			{
+	    				tank.setCanForward(false);
+	    				tank.setForward(0);
+	    			}
+		            else if(!tank.isCanForward()) tank.setCanForward(true);
+	    		}
+	    		else
+	    		{
+	    			nextPos = tank.calculateNextPosition(false);
+	    			if (Sprite.testIntersection(boxBound,nextPos.get(0),nextPos.get(1),tank.getWidth()-4,tank.getHeight()-4))
+	    			{
+	    				tank.setCanBack(false);
+	    				tank.setForward(0);
+		    		}
+		            else if(!tank.isCanBack()) tank.setCanBack(true);
+	    		}
+        	}
 	 
             for (Missile missile : missiles) {
            	
@@ -423,26 +443,15 @@ public class Board extends JPanel implements ActionListener {
             	
             	if(Sprite.testIntersection(boxBound, missileBound)) {
             		
-            		//Superior
-            		if(missile.getY() < box.getY() && isBetween(missile.getX(),box.getX(),box.getX()+box.getWidth()-missile.getWidth()))
+            		//Superior e inferior
+            		if((missile.getY() < box.getY() && isBetween(missile.getX(),box.getX(),box.getX()+box.getWidth()-missile.getWidth())) || 
+            		(missile.getY() > box.getY() + box.getHeight() - missile.getHeight() && isBetween(missile.getX(),box.getX(),box.getX()+box.getWidth()-missile.getWidth())))
             		{
             			missile.setR(180-missile.getR());
-            		}
-            		
-            		//Inferior
-            		else if(missile.getY() > box.getY() + box.getHeight() - missile.getHeight() && isBetween(missile.getX(),box.getX(),box.getX()+box.getWidth()-missile.getWidth())) 
-            		{
-            			missile.setR(180-missile.getR());
-            		}
-            		
-            		//Izquierdo
-            		if(missile.getX() < box.getX() && isBetween(missile.getY(),box.getY(),box.getY()+box.getHeight()-missile.getHeight()))
-            		{
-            			missile.setR(missile.getR()*-1);
-            		}
-            		
-            		//Derecho
-            		else if(missile.getX() > box.getX() + box.getWidth() - missile.getWidth() && isBetween(missile.getY(),box.getY(),box.getY()+box.getHeight()-missile.getHeight()))
+            		}            		
+            		//Izquierdo y derecho
+            		if((missile.getX() < box.getX() && isBetween(missile.getY(),box.getY(),box.getY()+box.getHeight()-missile.getHeight())) || 
+            		(missile.getY() > box.getY() + box.getHeight() - missile.getHeight() && isBetween(missile.getX(),box.getX(),box.getX()+box.getWidth()-missile.getWidth())))
             		{
             			missile.setR(missile.getR()*-1);
             		}
