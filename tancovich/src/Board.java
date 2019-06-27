@@ -450,8 +450,7 @@ public class Board extends JPanel implements ActionListener {
             			missile.setR(180-missile.getR());
             		}            		
             		//Izquierdo y derecho
-            		if((missile.getX() < box.getX() && isBetween(missile.getY(),box.getY(),box.getY()+box.getHeight()-missile.getHeight())) || 
-            		(missile.getY() > box.getY() + box.getHeight() - missile.getHeight() && isBetween(missile.getX(),box.getX(),box.getX()+box.getWidth()-missile.getWidth())))
+			if(missile.getX() < box.getX() && isBetween(missile.getY(),box.getY(),box.getY()+box.getHeight()-missile.getHeight()) || missile.getX() > box.getX() + box.getWidth() - missile.getWidth() && isBetween(missile.getY(),box.getY(),box.getY()+box.getHeight()-missile.getHeight()))
             		{
             			missile.setR(missile.getR()*-1);
             		}
