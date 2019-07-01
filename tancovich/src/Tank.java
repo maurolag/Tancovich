@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tank extends Sprite implements Entity {
+public class Tank extends Sprite implements Entity{
 
 	private int id;
     private int forward;
@@ -12,8 +12,11 @@ public class Tank extends Sprite implements Entity {
     private boolean canForward = true;
     private boolean canBack = true;
     private boolean fireControl = false;
-    private boolean mineControl = false;    
+	private boolean mineControl = false;    
+    private int missileNumber = 10;
+    private int minesNumber = 4;
 
+    
 	private final int[][] tankControls = {
     		    		
             {37, 38, 39, 40, 32, 17}, 
@@ -94,6 +97,7 @@ public class Tank extends Sprite implements Entity {
         
         missiles = new ArrayList<>();
         mines = new ArrayList<>();
+
     }
     
     public void update() {
@@ -120,6 +124,7 @@ public class Tank extends Sprite implements Entity {
         	{
         		if(this.isAlive()) this.setAlive(false);
         		explodeSprite(30);
+        		setVisible(false);
         	}
         }        
     }
@@ -152,17 +157,19 @@ public class Tank extends Sprite implements Entity {
         		setForward(-5);
         	}
     	}    	
-    	if (Keyboard.keydown[tankControls[id-1][4]] && !fireControl) {
+    	if (Keyboard.keydown[tankControls[id-1][4]] && !fireControl && CanFire()) {
         	fire();
         	fireControl = true;
+        	setMissileNumber(getMissileNumber()-1);
         }
     	if(!Keyboard.keydown[tankControls[id-1][4]]) // Tiro
     	{
     		fireControl = false;
     	}        
-        if (Keyboard.keydown[tankControls[id-1][5]] && !mineControl) {
+        if (Keyboard.keydown[tankControls[id-1][5]] && !mineControl && canPlant()) {
         	plant();
         	mineControl = true;
+        	setMinesNumber(getMinesNumber()-1);
         }
         if(!Keyboard.keydown[tankControls[id-1][5]]) // Mina
         {
@@ -176,7 +183,7 @@ public class Tank extends Sprite implements Entity {
     }
     
     public void plant() {
-    	mines.add(new Mine(x + width / 2, y + height /2));
+    	mines.add(new Mine(x + width / 2, y + height /2, getId()));
     }
     
     public ArrayList<Integer> calculateNextPosition(boolean forward)
@@ -186,4 +193,47 @@ public class Tank extends Sprite implements Entity {
     	nextPos.add(getY() + (int)(Math.cos(Math.toRadians(-getR())) * (forward ? 5 : -5)));
     	return nextPos;
     }
+
+	public boolean CanFire() {
+		return getMissileNumber() > 0;
+	}
+
+	public boolean canPlant() {
+		return getMinesNumber() > 0;
+	}
+
+	public int getMinesNumber() {
+		return minesNumber;
+	}
+
+	public void setMinesNumber(int minesNumber) {
+		this.minesNumber = minesNumber;
+	}
+    public boolean isMineControl() {
+		return mineControl;
+	}
+
+	public void setMineControl(boolean mineControl) {
+		this.mineControl = mineControl;
+	}
+
+	public int getMissileNumber() {
+		return missileNumber;
+	}
+
+	public void setMissileNumber(int missileNumber) {
+		this.missileNumber = missileNumber;
+	}
+	
+	public void reloadMissiles (int delay) {
+        if(delay % 50 == 0 && !CanFire()) setMissileNumber(10); 
+	}
+
+	public boolean isFireControl() {
+		return fireControl;
+	}
+
+	public void setFireControl(boolean fireControl) {
+		this.fireControl = fireControl;
+	}
 }
