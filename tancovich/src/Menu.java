@@ -6,22 +6,15 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
 public class Menu {
 	
     private BufferedImage background;
-    private BufferedImage image1;
-    private BufferedImage image2;
-    private 	JLabel label = new JLabel("");
-
-
+    private JLabel label = new JLabel("");
 
     public JLabel getLabel() { 
     	return this.label;
-    			} 
+    } 
     		
 	public void render (Graphics g) { //Menu PORTADA 
 		try {
@@ -30,10 +23,8 @@ public class Menu {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
     	g.drawImage(background, 0, 0, null);
-    
-
-	
 	}
+	
 	public void render2 (Graphics g) { //Menu OPTIONS 
 		try {
         	background = ImageIO.read(getClass().getResourceAsStream("Resources/MENU1(PASIVO).jpg"));
@@ -43,9 +34,6 @@ public class Menu {
     	g.drawImage(background, 0, 0, null);
     	JLabel label = new JLabel("");
 		label.setBounds(322, 217, 142, 48);
-    
-
-	
 	}	
 	
 	public void render3 (Graphics g) { //Menu HELP 
@@ -55,20 +43,15 @@ public class Menu {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
     	g.drawImage(background, 0, 0, null);
-    
-
+	}
 	
-	}	
-	public void render4 (Graphics g) { //Menu CREDITS 
+	public void render4 (Graphics g) {
 		try {
-        	background = ImageIO.read(getClass().getResourceAsStream("Resources/LOAD2.jpg")); //FALTA CREAR PANEL CREDITOS ///////////////
+        	background = ImageIO.read(getClass().getResourceAsStream("Resources/LOAD2.jpg")); //FALTA CREAR PANEL CREDITOS
         } catch (IOException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
     	g.drawImage(background, 0, 0, null);
-    
-
-	
 	}	
 
 }

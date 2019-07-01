@@ -28,7 +28,6 @@ public class Board extends JPanel implements ActionListener {
     private final int DELAY = 40;
     
     private BufferedImage background;
-    private BufferedImage panel1;
     private boolean ingame;
     private List<Tank> tanks;
     //private List<Enemy> enemies;
@@ -37,8 +36,6 @@ public class Board extends JPanel implements ActionListener {
     private List<ProgressBar> bars;
     private Timer timer;
     private Menu menu;
-    private boolean bol = false;
-    
     
     private final int[][] boxesPositionLvlOne = {
     		{293, 136, 55, 338},
@@ -67,8 +64,6 @@ public class Board extends JPanel implements ActionListener {
     	HELP,
     	CREDITS,
     	GAME
-    	
-    	
     };
     
     public static STATE State = STATE.MENU;
@@ -102,13 +97,9 @@ public class Board extends JPanel implements ActionListener {
 
     private void initBoard() {
 
-        setFocusable(true);
-       
+        setFocusable(true);       
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
         menu = new Menu();
-        
-        
-        
         ingame = true;
         
         if(lvl == 0) {
@@ -117,13 +108,11 @@ public class Board extends JPanel implements ActionListener {
 
         initTanks();
         //initEnemies();
-         
         initBars();
         initBoxes();
        
         timer = new Timer(DELAY, this);
-       timer.start();
-    
+        timer.start();    
     }
     
     public void initTanks() {
@@ -186,52 +175,36 @@ public class Board extends JPanel implements ActionListener {
 		}
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);        	
-       
-        
-        
-       if(State == STATE.GAME){
-        	  drawBackground(g);
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 
-        	if (ingame) {
-
-        		drawObjects(g);
-
-        	} else {
-
-        		drawGameOver(g);
-        	}
-
-        	Toolkit.getDefaultToolkit().sync();
-       } 
-       if (State == STATE.MENU){
-    	 //  System.out.println(" Entra");
-        	menu.render(g);}
-       if(State == STATE.MENU2) {
-        		addMouseListener(new MouseInput(this));
-        		menu.render2(g);
-        	}
-       if (State == STATE.HELP) {
-   		addMouseListener(new MouseInput(this));
-
-    	   menu.render3(g);
-    	   
-       }
-
-        	
-        	
-
-        	
-        	
-        	
-        	
-
-     }
-        
-        
-    
+		if (State == STATE.MENU) {
+			//  System.out.println(" Entra");
+			menu.render(g);
+		}
+		if(State == STATE.MENU2) {
+			addMouseListener(new MouseInput(this));
+			menu.render2(g);
+		}
+		if (State == STATE.HELP) {
+			addMouseListener(new MouseInput(this));	
+			menu.render3(g);		   
+		}
+		if(State == STATE.GAME){
+			drawBackground(g);
+	
+			if (ingame) {
+	
+				drawObjects(g);
+	
+			} else {
+	
+				drawGameOver(g);
+			}	
+			Toolkit.getDefaultToolkit().sync();
+		}
+	}
     
     private void drawBackground(Graphics g)
     {
@@ -242,7 +215,6 @@ public class Board extends JPanel implements ActionListener {
         }
     	g.drawImage(background, 0, 0, null);
     }
-
 
     private void drawObjects(Graphics g) {
       //  initBars();
@@ -522,43 +494,46 @@ public class Board extends JPanel implements ActionListener {
     public boolean isBetween(int x, int lower, int upper) {
     	return lower <= x && x <= upper;
     }
+    
     public void mouseEntered(MouseEvent e) {
     	
-    //	System.out.println("entre");
+    	//	System.out.println("entre");
     }
 	
 	public void mousePressed(MouseEvent e) { //Mouse Action
 		
 		int mx  = e.getX(); //cordenadas del mouse 
-		int my  = e.getY();
-		
+		int my  = e.getY();		
 	
 		if (State == STATE.MENU2){
 			//PLAY BUTTON
-			if (mx >=210 + 117 && mx <= 140 + 320 ) { 
-				if(my >= 230 && my <=280 )
-					
-					State = STATE.GAME;;
-			
+			if (mx >=210 + 117 && mx <= 140 + 320 ) {
+				
+				if(my >= 230 && my <=280 )					
+					State = STATE.GAME;
 			}
+			
 			//HELP BUTTON
-			if (mx >=210 + 117 && mx <= 140 + 320 ) { 
+			if (mx >=210 + 117 && mx <= 140 + 320 ) {
 				if(my >= 310 && my <=350 )
 					State = STATE.HELP;
-			//System.out.println("HELP");
+					//System.out.println("HELP");
 			}
-		//CREDITS BUTTON
+		
+			//CREDITS BUTTON
 			if (mx >=210 + 117 && mx <= 140 + 320 ) { 
 				if(my >= 380 && my <=420 )
-				//State = STATE.CREDITS; ///////////FALTA AGREGAR PANEL DE CREDITOS EN LA CLASE MENU//////////////////
+					//State = STATE.CREDITS; ///////////FALTA AGREGAR PANEL DE CREDITOS EN LA CLASE MENU//////////////////
 					System.out.println("CREDITS");
 			}
-		//BACK BUTTON
+		
+			//BACK BUTTON
 			if (mx >=20&& mx <= 100 ) { 
 				if(my >= 535 && my <=580 )
 					State = STATE.MENU;
 			}
-		//EXIT BUTTON
+		
+			//EXIT BUTTON
 			if (mx >=720&& mx <=780 ) { 
 				if(my >= 535 && my <=580 )
 					System.exit(1) ;
@@ -566,33 +541,31 @@ public class Board extends JPanel implements ActionListener {
 			}
 		
 		}
+		
 		//BACK BUTTON IN HELP
-				if (mx >=20&& mx <= 100 ) { 
-						if(my >= 535 && my <=580 )
-							State = STATE.MENU2;
-					}
+		if (mx >=20&& mx <= 100 ) { 
+			if(my >= 535 && my <=580 ) {
+					State = STATE.MENU2;
+			}
+		}
 	}
 
     @Override
     protected void processKeyEvent(KeyEvent e) {
     	
-    	if (State == STATE.MENU){
+    	if (State == STATE.MENU) {
             if ((e.getID() == KeyEvent.KEY_PRESSED) && (e.getKeyCode() == KeyEvent.VK_ENTER )) {
-             
             	State = STATE.MENU2;
-
-            	
             }
-
     	}
-    	if(State == STATE.GAME) {
-         if (e.getID() == KeyEvent.KEY_PRESSED) {
-            Keyboard.keydown[e.getKeyCode()] = true;
-        }
-        else if (e.getID() == KeyEvent.KEY_RELEASED) {
-            Keyboard.keydown[e.getKeyCode()] = false;
-        }
-        }
     	
+    	if(State == STATE.GAME) {
+	         if (e.getID() == KeyEvent.KEY_PRESSED) {
+	            Keyboard.keydown[e.getKeyCode()] = true;
+	        }
+	        else if (e.getID() == KeyEvent.KEY_RELEASED) {
+	            Keyboard.keydown[e.getKeyCode()] = false;
+	        }
+        }    	
     }
 }
