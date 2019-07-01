@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class Board extends JPanel implements ActionListener {
     private final int DELAY = 40;
     
     private BufferedImage background;
+    private BufferedImage panel1;
     private boolean ingame;
     private List<Tank> tanks;
     //private List<Enemy> enemies;
@@ -34,6 +36,9 @@ public class Board extends JPanel implements ActionListener {
     private int lvl = 0;
     private List<ProgressBar> bars;
     private Timer timer;
+    private Menu menu;
+    private boolean bol = false;
+    
     
     private final int[][] boxesPositionLvlOne = {
     		{293, 136, 55, 338},
@@ -55,7 +60,19 @@ public class Board extends JPanel implements ActionListener {
             {1, 40, 60},
             {2, 720, 480}
     };
-
+    
+    public static enum STATE{
+    	MENU,
+    	MENU2,
+    	HELP,
+    	CREDITS,
+    	GAME
+    	
+    	
+    };
+    
+    public static STATE State = STATE.MENU;
+    
     /*private final int[][] enemyPositions = {
     		
             {2380, 29}, {2500, 59}, {1380, 89},
@@ -79,13 +96,18 @@ public class Board extends JPanel implements ActionListener {
     
     public Board() {
     	
+    	
         initBoard();
     }
 
     private void initBoard() {
 
         setFocusable(true);
+       
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
+        menu = new Menu();
+        
+        
         
         ingame = true;
         
@@ -95,11 +117,13 @@ public class Board extends JPanel implements ActionListener {
 
         initTanks();
         //initEnemies();
+         
         initBars();
         initBoxes();
-
+       
         timer = new Timer(DELAY, this);
-        timer.start();
+       timer.start();
+    
     }
     
     public void initTanks() {
@@ -165,20 +189,49 @@ public class Board extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);        	
+       
         
-        drawBackground(g);
         
-        if (ingame) {
+       if(State == STATE.GAME){
+        	  drawBackground(g);
 
-            drawObjects(g);
+        	if (ingame) {
 
-        } else {
+        		drawObjects(g);
 
-            drawGameOver(g);
-        }
+        	} else {
 
-        Toolkit.getDefaultToolkit().sync();
-    }
+        		drawGameOver(g);
+        	}
+
+        	Toolkit.getDefaultToolkit().sync();
+       } 
+       if (State == STATE.MENU){
+    	 //  System.out.println(" Entra");
+        	menu.render(g);}
+       if(State == STATE.MENU2) {
+        		addMouseListener(new MouseInput(this));
+        		menu.render2(g);
+        	}
+       if (State == STATE.HELP) {
+   		addMouseListener(new MouseInput(this));
+
+    	   menu.render3(g);
+    	   
+       }
+
+        	
+        	
+
+        	
+        	
+        	
+        	
+
+     }
+        
+        
+    
     
     private void drawBackground(Graphics g)
     {
@@ -190,8 +243,10 @@ public class Board extends JPanel implements ActionListener {
     	g.drawImage(background, 0, 0, null);
     }
 
+
     private void drawObjects(Graphics g) {
-    	
+      //  initBars();
+
     	for (Tank tank : tanks)
     	{
     		if (tank.isVisible()) {
@@ -255,8 +310,9 @@ public class Board extends JPanel implements ActionListener {
     }
 
     @Override
+  
     public void actionPerformed(ActionEvent e) {
-
+    	//if (State == STATE.GAME) {
         inGame();
         for (Tank tank : tanks)
     	{
@@ -264,18 +320,18 @@ public class Board extends JPanel implements ActionListener {
 	        updateMissiles(tank);
 	        updateMines(tank);
 	        checkCollisions(tank);
-    	}
+    	//}
         //updateEnemies();
-        repaint();
+        repaint();}
     }
-
+    
+    
+	
     private void inGame() {
-
         if (!ingame) {
             timer.stop();
-        }
     }
-
+    }
     private void updateTanks(Tank tank) {
 
         if (tank.isVisible()) {
@@ -314,27 +370,27 @@ public class Board extends JPanel implements ActionListener {
 			}
 		}
 	}
-    
-    /*private void updateEnemies() {
 
-        if (enemies.isEmpty()) {
-
-            ingame = false;
-            return;
-        }
-
-        for (int i = 0; i < enemies.size(); i++) {
-
-            Enemy a = enemies.get(i);
-
-            if (a.isVisible()) {
-                a.update();
-            } else {
-                enemies.remove(i);
-            }
-        }
-    }*/
-
+//    /*private void updateEnemies() {
+//
+//        if (enemies.isEmpty()) {
+//
+//            ingame = false;
+//            return;
+//        }
+//
+//        for (int i = 0; i < enemies.size(); i++) {
+//
+//            Enemy a = enemies.get(i);
+//
+//            if (a.isVisible()) {
+//                a.update();
+//            } else {
+//                enemies.remove(i);
+//            }
+//        }
+//    }*/
+//
     public void checkCollisions(Tank tank) {
 
         Shape tankBound = tank.getShape();
@@ -457,14 +513,77 @@ public class Board extends JPanel implements ActionListener {
     public boolean isBetween(int x, int lower, int upper) {
     	return lower <= x && x <= upper;
     }
-    
+    public void mouseEntered(MouseEvent e) {
+    	
+    //	System.out.println("entre");
+    }
+	
+	public void mousePressed(MouseEvent e) { //Mouse Action
+		
+		int mx  = e.getX(); //cordenadas del mouse 
+		int my  = e.getY();
+		
+	
+		if (State == STATE.MENU2){
+			//PLAY BUTTON
+			if (mx >=210 + 117 && mx <= 140 + 320 ) { 
+				if(my >= 230 && my <=280 )
+					
+					State = STATE.GAME;;
+			
+			}
+			//HELP BUTTON
+			if (mx >=210 + 117 && mx <= 140 + 320 ) { 
+				if(my >= 310 && my <=350 )
+					State = STATE.HELP;
+			//System.out.println("HELP");
+			}
+		//CREDITS BUTTON
+			if (mx >=210 + 117 && mx <= 140 + 320 ) { 
+				if(my >= 380 && my <=420 )
+				//State = STATE.CREDITS; ///////////FALTA AGREGAR PANEL DE CREDITOS EN LA CLASE MENU//////////////////
+					System.out.println("CREDITS");
+			}
+		//BACK BUTTON
+			if (mx >=20&& mx <= 100 ) { 
+				if(my >= 535 && my <=580 )
+					State = STATE.MENU;
+			}
+		//EXIT BUTTON
+			if (mx >=720&& mx <=780 ) { 
+				if(my >= 535 && my <=580 )
+					System.exit(1) ;
+		
+			}
+		
+		}
+		//BACK BUTTON IN HELP
+				if (mx >=20&& mx <= 100 ) { 
+						if(my >= 535 && my <=580 )
+							State = STATE.MENU2;
+					}
+	}
+
     @Override
     protected void processKeyEvent(KeyEvent e) {
-        if (e.getID() == KeyEvent.KEY_PRESSED) {
+    	
+    	if (State == STATE.MENU){
+            if ((e.getID() == KeyEvent.KEY_PRESSED) && (e.getKeyCode() == KeyEvent.VK_ENTER )) {
+             
+            	State = STATE.MENU2;
+
+            	
+            }
+
+    	}
+    	if(State == STATE.GAME) {
+         if (e.getID() == KeyEvent.KEY_PRESSED) {
             Keyboard.keydown[e.getKeyCode()] = true;
         }
         else if (e.getID() == KeyEvent.KEY_RELEASED) {
             Keyboard.keydown[e.getKeyCode()] = false;
         }
+        }
+    	
     }
 }
