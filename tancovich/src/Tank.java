@@ -44,18 +44,18 @@ public class Tank extends Sprite implements Entity {
 	public boolean isCanForward() {
 		return canForward;
 	}
-
-	public boolean isCanBack() {
-		return canBack;
-	}
-
+	
 	public void setCanForward(boolean canForward) {
 		this.canForward = canForward;
 	}
-
+	
+	public boolean isCanBack() {
+		return canBack;
+	}
+	
 	public void setCanBack(boolean canBack) {
 		this.canBack = canBack;
-	}
+	}	
 
 	public int getHealth() {
 		return health;

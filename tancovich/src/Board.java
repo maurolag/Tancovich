@@ -417,6 +417,7 @@ public class Board extends JPanel implements ActionListener {
         		ArrayList<Integer> nextPos = new ArrayList<Integer>();
 	    		if(tank.getForward() >= 0)
 	    		{
+	    			
 	    			nextPos = tank.calculateNextPosition(true);
 	    			if (Sprite.testIntersection(boxBound,nextPos.get(0),nextPos.get(1),tank.getWidth()-4,tank.getHeight()-4))
 	    			{
@@ -450,7 +451,7 @@ public class Board extends JPanel implements ActionListener {
             			missile.setR(180-missile.getR());
             		}            		
             		//Izquierdo y derecho
-			if(missile.getX() < box.getX() && isBetween(missile.getY(),box.getY(),box.getY()+box.getHeight()-missile.getHeight()) || missile.getX() > box.getX() + box.getWidth() - missile.getWidth() && isBetween(missile.getY(),box.getY(),box.getY()+box.getHeight()-missile.getHeight()))
+            		if(missile.getX() < box.getX() && isBetween(missile.getY(),box.getY(),box.getY()+box.getHeight()-missile.getHeight()) || missile.getX() > box.getX() + box.getWidth() - missile.getWidth() && isBetween(missile.getY(),box.getY(),box.getY()+box.getHeight()-missile.getHeight()))
             		{
             			missile.setR(missile.getR()*-1);
             		}
