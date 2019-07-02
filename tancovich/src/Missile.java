@@ -1,4 +1,6 @@
-public class Missile extends Sprite implements Entity {
+
+
+public class Missile extends Sprite implements Entity{
 
     private final int MISSILE_SPEED = 10;
     private int bounce = 0;
@@ -20,7 +22,6 @@ public class Missile extends Sprite implements Entity {
     	else {
     		loadImage("Resources/bulletBlue.png", 180+r);
     	}
-        
     }
 
     public void update() {
@@ -95,4 +96,5 @@ public class Missile extends Sprite implements Entity {
 	   int range = (max - min) + 1;     
 	   return (int)(Math.random() * range) + min;
 	}    
+
 }

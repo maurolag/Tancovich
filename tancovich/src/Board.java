@@ -20,7 +20,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Board extends JPanel implements ActionListener {
+public class Board extends JPanel  implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
     private final int B_WIDTH = 800;
@@ -37,6 +37,7 @@ public class Board extends JPanel implements ActionListener {
     private Menu menu;
     private boolean enterControl = false;
     private boolean escapeControl = false;
+    private int delayWeapon = 1;
     
     private final int[][] boxesPositionLvlOne = {
     		{293, 136, 55, 338},
@@ -268,6 +269,18 @@ public class Board extends JPanel implements ActionListener {
 
     	for (Tank tank : tanks)
     	{
+    		//Hago visible primero la mina que el tanque para que esta no se dibuje encima de este
+            List<Mine> pm = tank.getMines();
+
+            for (Mine mine : pm) {
+            	if(mine.isVisible()) {
+            		
+                    g.drawImage(mine.getImage(), mine.getX(), mine.getY(), this);
+                    if(tank.isMineControl() == true)
+                    g.drawString( tank.getMinesNumber() + " mines left.", tank.getX()-12, tank.getY()-5);
+            	}
+            }
+    		
     		if (tank.isVisible()) {
             	
             	g.drawImage(tank.getImage(), tank.getX(), tank.getY(), this);
@@ -279,17 +292,12 @@ public class Board extends JPanel implements ActionListener {
                 if (missile.isVisible()) {
                 	
                     g.drawImage(missile.getImage(), missile.getX(), missile.getY(), this);
+                    if(tank.isFireControl() == true)
+                    g.drawString( tank.getMissileNumber() + " missiles left.", tank.getX()-12, tank.getY()-5);
+                    if(!tank.CanFire()) g.drawString("No missiles left.", tank.getX()-12, tank.getY()-5);
                 }
             }
-            
-            List<Mine> pm = tank.getMines();
-
-            for (Mine mine : pm) {
-            	if(mine.isVisible()) {
-            		
-                    g.drawImage(mine.getImage(), mine.getX(), mine.getY(), this);
-            	}
-            }           
+                       
     	}        
 
         /*for (Enemy enemy : enemies) {
@@ -335,13 +343,14 @@ public class Board extends JPanel implements ActionListener {
     	if (State == STATE.GAME) {
     		for (Tank tank: tanks)
 	    	{
+				setDelayWeapon(getdelayWeapon()+1);
 	        	updateTanks(tank);
 		        updateMissiles(tank);
 		        updateMines(tank);
 		        checkCollisions(tank);
 	    	}
-	        //updateEnemies();
-    	}
+		}
+		//updateEnemies();
     	repaint();
     }
     
@@ -350,23 +359,23 @@ public class Board extends JPanel implements ActionListener {
         if (tank.isVisible()) {
 
             tank.update();
+            tank.reloadMissiles(getdelayWeapon());
         }
     }
 
     private void updateMissiles(Tank tank) {
 
         List<Missile> ms = tank.getMissiles();
-
         for (int i = 0; i < ms.size(); i++) {
 
             Missile m = ms.get(i);
 
             if (m.isVisible()) {
-                m.update();
+            	m.update();
             } else {
                 ms.remove(i);
             }
-        }
+        }        
     }
     
     private void updateMines(Tank tank) {
@@ -457,25 +466,40 @@ public class Board extends JPanel implements ActionListener {
             }
         }
 	       
-        /*List<Mine> minas = tank.getMines();
+        List<Mine> minas = tank.getMines();
 	
 	        
-        for (Mine mina : minas) {
+        for (Mine mine : minas) {
 	
-        	Shape minaBound = mina.getShape();
-	
-	        for (Enemy enemy : enemies) {
-	
-	        	Shape enemyBound = enemy.getShape();
-	
-	        	if (Sprite.testIntersection(minaBound,enemyBound)) {
-	
-	        		mina.setVisible(false);
-	        		enemy.setVisible(false);
-	        		enemy.destroyEnemy();
+        	Shape mineBound = mine.getShape();
+            
+        	for (Tank tankObjective : tanks) {
+                
+        		Shape tankeBound = tankObjective.getShape();
+	        	
+                if (Sprite.testIntersection(mineBound,tankeBound)) {
+                	if(mine.getShooterId() != tankObjective.getId() || mine.getShooterId() == tank.getId()  && getdelayWeapon() % 50 == 0) {
+                		if(tankObjective.visible) {
+                		tankObjective.setHealth(tankObjective.getHealth() - mine.getDamage());   
+                		for (int i = 0; i < bars.size(); i++) {
+                			if(bars.get(i).getTankId() == tankObjective.getId()) {
+                				bars.get(i).setValue(tankObjective.getHealth());
+                			}
+                		}
+                		mine.setExplode(true);
+                		}
+                	}
 	        	}
 	        }
-        }*/
+        	for (Missile m : missiles) {
+        		Shape missileBound = m.getShape();
+        		if(Sprite.testIntersection(mineBound, missileBound)) {
+        			mine.setExplode(true);
+        			m.setVisible(false);
+        		}
+        	}
+        }
+        
         
         for (Box box : boxes) {
 
@@ -621,6 +645,14 @@ public class Board extends JPanel implements ActionListener {
 				State = STATE.STARTMENU;
 			}
 		}
+	}
+
+	public int getdelayWeapon() {
+		return delayWeapon;
+	}
+
+	public void setDelayWeapon(int delayWeapon) {
+		this.delayWeapon = delayWeapon;
 	}
 
     @Override
