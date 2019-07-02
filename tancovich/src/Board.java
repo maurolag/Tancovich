@@ -28,7 +28,6 @@ public class Board extends JPanel implements ActionListener {
     private final int DELAY = 40;
     
     private BufferedImage background;
-    private boolean ingame;
     private List<Tank> tanks;
     //private List<Enemy> enemies;
     private List<Box> boxes;
@@ -36,6 +35,8 @@ public class Board extends JPanel implements ActionListener {
     private List<ProgressBar> bars;
     private Timer timer;
     private Menu menu;
+    private boolean enterControl = false;
+    private boolean escapeControl = false;
     
     private final int[][] boxesPositionLvlOne = {
     		{293, 136, 55, 338},
@@ -59,14 +60,15 @@ public class Board extends JPanel implements ActionListener {
     };
     
     public static enum STATE{
-    	MENU,
-    	MENU2,
+    	STARTMENU,
+    	MAINMENU,
     	HELP,
     	CREDITS,
-    	GAME
+    	GAME,
+    	GAMEOVER
     };
     
-    public static STATE State = STATE.MENU;
+    public static STATE State = STATE.STARTMENU;
     
     /*private final int[][] enemyPositions = {
     		
@@ -90,8 +92,6 @@ public class Board extends JPanel implements ActionListener {
     }
     
     public Board() {
-    	
-    	
         initBoard();
     }
 
@@ -99,10 +99,15 @@ public class Board extends JPanel implements ActionListener {
 
         setFocusable(true);       
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
-        menu = new Menu();
-        ingame = true;
-        
-        if(lvl == 0) {
+        addMouseListener(new MouseInput(this));
+        menu = new Menu();       
+        timer = new Timer(DELAY, this);
+        timer.start();
+    }
+    
+    private void initGame() {
+    	
+    	if(lvl == 0) {
         	lvl = 1;
         }
 
@@ -110,9 +115,6 @@ public class Board extends JPanel implements ActionListener {
         //initEnemies();
         initBars();
         initBoxes();
-       
-        timer = new Timer(DELAY, this);
-        timer.start();    
     }
     
     public void initTanks() {
@@ -140,8 +142,8 @@ public class Board extends JPanel implements ActionListener {
     	for (Tank t : tanks) {
     		
     		ProgressBar p = new ProgressBar(t.getId());
-            p.setValue(t.getHealth());
-            p.setBounds(15, 15, 300, 15);
+            p.setValue(t.getHealth());      
+            p.setBounds(((t.getId()-1)*340)+100, 20, 300, 20);
             p.setVisible(true);
             bars.add(p);
             this.add(p);
@@ -179,30 +181,51 @@ public class Board extends JPanel implements ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		if (State == STATE.MENU) {
-			//  System.out.println(" Entra");
+		if (State == STATE.STARTMENU) {
 			menu.render(g);
+			if(Keyboard.keydown[10] && !enterControl)
+			{
+				enterControl = true;
+				State = STATE.MAINMENU;				
+			}
+			if(Keyboard.keydown[27] && !escapeControl)
+			{
+				System.exit(1);
+			}
 		}
-		if(State == STATE.MENU2) {
-			addMouseListener(new MouseInput(this));
+		if(State == STATE.MAINMENU) {
 			menu.render2(g);
+			if(Keyboard.keydown[10] && !enterControl)
+			{
+				enterControl = true;
+				initGame();
+				State = STATE.GAME;
+			}
+			if(Keyboard.keydown[27] && !escapeControl)
+			{
+				escapeControl = true;
+				State = STATE.STARTMENU;	
+			}
 		}
 		if (State == STATE.HELP) {
-			addMouseListener(new MouseInput(this));	
 			menu.render3(g);		   
 		}
-		if(State == STATE.GAME){
+		if(State == STATE.GAME) {
 			drawBackground(g);
-	
-			if (ingame) {
-	
-				drawObjects(g);
-	
-			} else {
-	
-				drawGameOver(g);
-			}	
+			drawObjects(g);
 			Toolkit.getDefaultToolkit().sync();
+		}
+		if(State == STATE.GAMEOVER) {
+			drawGameOver(g);
+		}
+		
+		if(!Keyboard.keydown[10])
+		{
+			enterControl = false;
+		}
+		if(!Keyboard.keydown[27])
+		{
+			escapeControl = false;
 		}
 	}
     
@@ -217,7 +240,6 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void drawObjects(Graphics g) {
-      //  initBars();
 
     	for (Tank tank : tanks)
     	{
@@ -279,31 +301,25 @@ public class Board extends JPanel implements ActionListener {
         g.setColor(Color.white);
         g.setFont(small);
         g.drawString(msg, (B_WIDTH - fm.stringWidth(msg)) / 2, B_HEIGHT / 2);
+        
     }
 
-    @Override
-  
+    @Override  
     public void actionPerformed(ActionEvent e) {
-    	//if (State == STATE.GAME) {
-        inGame();
-        for (Tank tank : tanks)
-    	{
-	        updateTanks(tank);
-	        updateMissiles(tank);
-	        updateMines(tank);
-	        checkCollisions(tank);
-    	//}
-        //updateEnemies();
-        repaint();}
+    	
+    	if (State == STATE.GAME) {
+    		for (Tank tank: tanks)
+	    	{
+	        	updateTanks(tank);
+		        updateMissiles(tank);
+		        updateMines(tank);
+		        checkCollisions(tank);
+	    	}
+	        //updateEnemies();
+    	}
+    	repaint();
     }
     
-    
-	
-    private void inGame() {
-        if (!ingame) {
-            timer.stop();
-    }
-    }
     private void updateTanks(Tank tank) {
 
         if (tank.isVisible()) {
@@ -505,11 +521,12 @@ public class Board extends JPanel implements ActionListener {
 		int mx  = e.getX(); //cordenadas del mouse 
 		int my  = e.getY();		
 	
-		if (State == STATE.MENU2){
+		if (State == STATE.MAINMENU){
 			//PLAY BUTTON
 			if (mx >=210 + 117 && mx <= 140 + 320 ) {
 				
-				if(my >= 230 && my <=280 )					
+				if(my >= 230 && my <=280 )
+					initGame();
 					State = STATE.GAME;
 			}
 			
@@ -530,22 +547,21 @@ public class Board extends JPanel implements ActionListener {
 			//BACK BUTTON
 			if (mx >=20&& mx <= 100 ) { 
 				if(my >= 535 && my <=580 )
-					State = STATE.MENU;
+					State = STATE.STARTMENU;
 			}
 		
 			//EXIT BUTTON
 			if (mx >=720&& mx <=780 ) { 
 				if(my >= 535 && my <=580 )
-					System.exit(1) ;
+					System.exit(1);
 		
-			}
-		
+			}		
 		}
 		
 		//BACK BUTTON IN HELP
 		if (mx >=20&& mx <= 100 ) { 
 			if(my >= 535 && my <=580 ) {
-					State = STATE.MENU2;
+				State = STATE.MAINMENU;
 			}
 		}
 	}
@@ -553,19 +569,11 @@ public class Board extends JPanel implements ActionListener {
     @Override
     protected void processKeyEvent(KeyEvent e) {
     	
-    	if (State == STATE.MENU) {
-            if ((e.getID() == KeyEvent.KEY_PRESSED) && (e.getKeyCode() == KeyEvent.VK_ENTER )) {
-            	State = STATE.MENU2;
-            }
+    	if (e.getID() == KeyEvent.KEY_PRESSED) {
+    		Keyboard.keydown[e.getKeyCode()] = true;
     	}
-    	
-    	if(State == STATE.GAME) {
-	         if (e.getID() == KeyEvent.KEY_PRESSED) {
-	            Keyboard.keydown[e.getKeyCode()] = true;
-	        }
-	        else if (e.getID() == KeyEvent.KEY_RELEASED) {
-	            Keyboard.keydown[e.getKeyCode()] = false;
-	        }
-        }    	
+    	else if (e.getID() == KeyEvent.KEY_RELEASED) {
+    		Keyboard.keydown[e.getKeyCode()] = false;
+    	}
     }
 }
