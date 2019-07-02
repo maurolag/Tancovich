@@ -11,47 +11,28 @@ public class Menu {
 	
     private BufferedImage background;
     private JLabel label = new JLabel("");
+    private String[] renders = {
+    	"Resources/Menu/LOAD2.jpg",
+    	"Resources/Menu/MENU1(PASIVO).jpg",
+    	"Resources/Menu/HOWTOPLAY.jpg",
+    	"Resources/Menu/MENU2(PLAY).jpg",
+    	"Resources/Menu/MENU5(HELP).jpg",
+    	"Resources/Menu/MENU6(CREDITS).jpg",
+    	"Resources/Menu/MENU4(BACK).jpg",
+    	"Resources/Menu/MENU3(EXIT).jpg"
+    	
+    };
 
     public JLabel getLabel() { 
     	return this.label;
-    } 
-    		
-	public void render (Graphics g) { //Menu PORTADA 
+    }
+    
+    public void render(Graphics g, int render) { //Menu PORTADA 
 		try {
-        	background = ImageIO.read(getClass().getResourceAsStream("Resources/LOAD2.jpg"));
+        	background = ImageIO.read(getClass().getResourceAsStream(renders[render]));
         } catch (IOException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
     	g.drawImage(background, 0, 0, null);
 	}
-	
-	public void render2 (Graphics g) { //Menu OPTIONS 
-		try {
-        	background = ImageIO.read(getClass().getResourceAsStream("Resources/MENU1(PASIVO).jpg"));
-        } catch (IOException ex) {
-            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    	g.drawImage(background, 0, 0, null);
-    	JLabel label = new JLabel("");
-		label.setBounds(322, 217, 142, 48);
-	}	
-	
-	public void render3 (Graphics g) { //Menu HELP 
-		try {
-        	background = ImageIO.read(getClass().getResourceAsStream("Resources/HOWTOPLAY.jpg"));
-        } catch (IOException ex) {
-            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    	g.drawImage(background, 0, 0, null);
-	}
-	
-	public void render4 (Graphics g) {
-		try {
-        	background = ImageIO.read(getClass().getResourceAsStream("Resources/LOAD2.jpg")); //FALTA CREAR PANEL CREDITOS
-        } catch (IOException ex) {
-            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    	g.drawImage(background, 0, 0, null);
-	}	
-
 }

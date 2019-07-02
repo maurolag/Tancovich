@@ -14,14 +14,18 @@ public class MouseInput extends MouseAdapter {
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		board.mouseEntered(e);
+
+	}
+	
+	public void mouseMoved(MouseEvent e) {
+		board.mouseMoved(e);
 	}
 
 	public void mouseExited(MouseEvent e) {
 				
 	}
 
-	public void mousePressed(MouseEvent e) { //Mouse Action		
+	public void mousePressed(MouseEvent e) {
 		board.mousePressed(e);	
 	}
 

@@ -59,7 +59,7 @@ public class Board extends JPanel implements ActionListener {
             {2, 720, 480}
     };
     
-    public static enum STATE{
+    public static enum STATE {
     	STARTMENU,
     	MAINMENU,
     	HELP,
@@ -68,7 +68,18 @@ public class Board extends JPanel implements ActionListener {
     	GAMEOVER
     };
     
+    public int[][] Buttons = {
+    	
+    	{327,460,230,280}, //PLAY
+    	{327,460,310,350}, //HELP
+    	{327,460,380,420}, //CREDITS
+    	{20,100,535,580}, //BACK
+    	{720,780,535,580}, //EXIT
+    	{265,500,425,475} //PRESS ENTER
+    };
+    
     public static STATE State = STATE.STARTMENU;
+    private int render = 1;
     
     /*private final int[][] enemyPositions = {
     		
@@ -99,7 +110,9 @@ public class Board extends JPanel implements ActionListener {
 
         setFocusable(true);       
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
-        addMouseListener(new MouseInput(this));
+        MouseInput mouseListener = new MouseInput(this);
+        addMouseListener(mouseListener);
+        addMouseMotionListener(mouseListener);
         menu = new Menu();       
         timer = new Timer(DELAY, this);
         timer.start();
@@ -182,11 +195,12 @@ public class Board extends JPanel implements ActionListener {
 		super.paintComponent(g);
 
 		if (State == STATE.STARTMENU) {
-			menu.render(g);
+			menu.render(g,0);
 			if(Keyboard.keydown[10] && !enterControl)
 			{
 				enterControl = true;
-				State = STATE.MAINMENU;				
+				render = 1;
+				State = STATE.MAINMENU;
 			}
 			if(Keyboard.keydown[27] && !escapeControl)
 			{
@@ -194,7 +208,7 @@ public class Board extends JPanel implements ActionListener {
 			}
 		}
 		if(State == STATE.MAINMENU) {
-			menu.render2(g);
+			menu.render(g,render);
 			if(Keyboard.keydown[10] && !enterControl)
 			{
 				enterControl = true;
@@ -208,12 +222,23 @@ public class Board extends JPanel implements ActionListener {
 			}
 		}
 		if (State == STATE.HELP) {
-			menu.render3(g);		   
+			menu.render(g,2);
+			if(Keyboard.keydown[27] && !escapeControl)
+			{
+				escapeControl = true;
+				State = STATE.MAINMENU;	
+			}
 		}
 		if(State == STATE.GAME) {
 			drawBackground(g);
 			drawObjects(g);
 			Toolkit.getDefaultToolkit().sync();
+			if(Keyboard.keydown[27] && !escapeControl)
+			{
+				escapeControl = true;
+				render = 1;
+				State = STATE.MAINMENU;				
+			}
 		}
 		if(State == STATE.GAMEOVER) {
 			drawGameOver(g);
@@ -279,7 +304,7 @@ public class Board extends JPanel implements ActionListener {
         }*/
         
         for (Box box : boxes) {       	
-                g.drawRect(box.getX(), box.getY(), box.getWidth(), box.getHeight());
+        	g.drawRect(box.getX(), box.getY(), box.getWidth(), box.getHeight());
         }
 
         g.setColor(Color.WHITE);
@@ -511,57 +536,89 @@ public class Board extends JPanel implements ActionListener {
     	return lower <= x && x <= upper;
     }
     
-    public void mouseEntered(MouseEvent e) {
+    public void mouseMoved(MouseEvent e) {
     	
-    	//	System.out.println("entre");
+    	//Coordenadas X Y del mouse
+    	int mx  = e.getX();
+    	int my  = e.getY();
+    	//System.out.println("X: " + mx + " Y: " + my);
+    	
+    	if (State == STATE.MAINMENU) {
+			
+			if(isBetween(mx,Buttons[0][0],Buttons[0][1]) && isBetween(my,Buttons[0][2],Buttons[0][3])) {
+				render = 3;
+			}
+			
+			else if(isBetween(mx,Buttons[1][0],Buttons[1][1]) && isBetween(my,Buttons[1][2],Buttons[1][3])) {
+				render = 4;
+			}
+			
+			else if(isBetween(mx,Buttons[2][0],Buttons[2][1]) && isBetween(my,Buttons[2][2],Buttons[2][3])) {
+				render = 5;
+			}
+			
+			else if(isBetween(mx,Buttons[3][0],Buttons[3][1]) && isBetween(my,Buttons[3][2],Buttons[3][3])) {
+				render = 6;
+			}
+			
+			else if(isBetween(mx,Buttons[4][0],Buttons[4][1]) && isBetween(my,Buttons[4][2],Buttons[4][3])) {
+				render = 7;	
+			}
+			
+			else {
+				render = 1;
+			}
+		}
     }
 	
 	public void mousePressed(MouseEvent e) { //Mouse Action
 		
-		int mx  = e.getX(); //cordenadas del mouse 
-		int my  = e.getY();		
-	
-		if (State == STATE.MAINMENU){
-			//PLAY BUTTON
-			if (mx >=210 + 117 && mx <= 140 + 320 ) {
-				
-				if(my >= 230 && my <=280 )
-					initGame();
-					State = STATE.GAME;
-			}
+		//Coordenadas X Y del mouse
+		int mx  = e.getX();
+		int my  = e.getY();
+
+		if (State == STATE.STARTMENU) {
 			
-			//HELP BUTTON
-			if (mx >=210 + 117 && mx <= 140 + 320 ) {
-				if(my >= 310 && my <=350 )
-					State = STATE.HELP;
-					//System.out.println("HELP");
+			if(isBetween(mx,Buttons[5][0],Buttons[5][1]) && isBetween(my,Buttons[5][2],Buttons[5][3])) {
+				State = STATE.MAINMENU;
 			}
-		
-			//CREDITS BUTTON
-			if (mx >=210 + 117 && mx <= 140 + 320 ) { 
-				if(my >= 380 && my <=420 )
-					//State = STATE.CREDITS; ///////////FALTA AGREGAR PANEL DE CREDITOS EN LA CLASE MENU//////////////////
-					System.out.println("CREDITS");
-			}
-		
-			//BACK BUTTON
-			if (mx >=20&& mx <= 100 ) { 
-				if(my >= 535 && my <=580 )
-					State = STATE.STARTMENU;
-			}
-		
-			//EXIT BUTTON
-			if (mx >=720&& mx <=780 ) { 
-				if(my >= 535 && my <=580 )
-					System.exit(1);
-		
-			}		
 		}
 		
-		//BACK BUTTON IN HELP
-		if (mx >=20&& mx <= 100 ) { 
-			if(my >= 535 && my <=580 ) {
-				State = STATE.MAINMENU;
+		if (State == STATE.MAINMENU) {
+			
+			if(isBetween(mx,Buttons[0][0],Buttons[0][1]) && isBetween(my,Buttons[0][2],Buttons[0][3])) {
+				initGame();
+				State = STATE.GAME;
+			}
+			
+			if(isBetween(mx,Buttons[1][0],Buttons[1][1]) && isBetween(my,Buttons[1][2],Buttons[1][3])) {
+				State = STATE.HELP;
+			}
+			
+			if(isBetween(mx,Buttons[2][0],Buttons[2][1]) && isBetween(my,Buttons[2][2],Buttons[2][3])) {
+				State = STATE.CREDITS;
+			}
+			
+			if(isBetween(mx,Buttons[3][0],Buttons[3][1]) && isBetween(my,Buttons[3][2],Buttons[3][3])) {
+				State = STATE.STARTMENU;
+			}
+			
+			if(isBetween(mx,Buttons[4][0],Buttons[4][1]) && isBetween(my,Buttons[4][2],Buttons[4][3])) {
+				System.exit(1);		
+			}
+		}
+		
+		if(State == STATE.HELP) {
+			
+			if(isBetween(mx,Buttons[3][0],Buttons[3][1]) && isBetween(my,Buttons[3][2],Buttons[3][3])) {
+				State = STATE.STARTMENU;
+			}
+		}
+		
+		if(State == STATE.CREDITS) {
+			
+			if(isBetween(mx,Buttons[3][0],Buttons[3][1]) && isBetween(my,Buttons[3][2],Buttons[3][3])) {
+				State = STATE.STARTMENU;
 			}
 		}
 	}
